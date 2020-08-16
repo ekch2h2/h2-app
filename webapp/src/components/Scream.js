@@ -17,11 +17,13 @@ import MyButton from "../util/MyButton";
 import ChatIcon from "@material-ui/icons/Chat";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import DeleteScream from "./DeleteScream";
 
 const styles = {
     card: {
         display: "flex",
-        marginBottom: 20
+        marginBottom: 20,
+        position: "relative"
     },
     image: {
         minWidth: 200
@@ -57,10 +59,12 @@ class Scream extends Component {
                 userImage,
                 userHandle,
                 likeCount,
-                commentCount
+                commentCount,
+                screamId
             },
             user: {
-                authenticated
+                authenticated,
+                credentials: { handle }
             }
         } = this.props;
         const likeButton = !authenticated ? (
@@ -80,6 +84,9 @@ class Scream extends Component {
                 </MyButton>
             )
         );
+        const deleteButton = authenticated && userHandle === handle ? (
+            <DeleteScream screamId={screamId}/>
+        ) : null;
         return (
             <Card className={classes.card}>
                 {
@@ -98,6 +105,7 @@ class Scream extends Component {
                     >
                         {userHandle}
                     </Typography>
+                    {deleteButton}
                     <Typography variant="body2" color="textSecondary">
                         {dayjs(createdAt).fromNow()}
                     </Typography>
