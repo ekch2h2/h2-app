@@ -1,3 +1,4 @@
+const { validateScream } = require("../util/validators");
 const { db, admin } = require("../util/admin");
 
 exports.getAllScreams = (req, res) => {
@@ -26,6 +27,12 @@ exports.postOneScream = (req, res) => {
         likeCount: 0,
         commentCount: 0
     };
+
+    const {errors, valid} = validateScream(newScream);
+
+    if (!valid) {
+        return res.status(400).json(errors)
+    }
 
     admin.firestore().collection('screams').add(newScream)
         .then(doc => {

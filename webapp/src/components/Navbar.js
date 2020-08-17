@@ -9,9 +9,9 @@ import { Link } from 'react-router-dom';
 import PropTyes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import MyButton from "../util/MyButton";
-import AddIcon from "@material-ui/icons/Add";
 import HomeIcon from "@material-ui/icons/Home";
 import NotificationIcon from "@material-ui/icons/Notifications";
+import PostScream from "./PostScream";
 
 const styles = {};
 
@@ -23,9 +23,7 @@ class Navbar extends Component {
                 <Toolbar className="nav-container">
                     {authenticated ? (
                         <Fragment>
-                            <MyButton tip="Post a Scream">
-                                <AddIcon/>
-                            </MyButton>
+                            <PostScream />
                             <Link to="/">
                                 <MyButton tip="Home">
                                     <HomeIcon/>
