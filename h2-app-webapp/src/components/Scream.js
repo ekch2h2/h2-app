@@ -19,10 +19,14 @@ import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import DeleteScream from "./DeleteScream";
 import ScreamDialog from "./ScreamDialog";
+import CardHeader from "@material-ui/core/CardHeader";
+import Avatar from "@material-ui/core/Avatar";
+import IconButton from "@material-ui/core/IconButton";
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import ReactMarkdown from 'react-markdown';
 
 const styles = {
     card: {
-        display: "flex",
         marginBottom: 20,
         position: "relative"
     },
@@ -32,6 +36,9 @@ const styles = {
     content: {
         padding: 25,
         objectFit: "cover"
+    },
+    screamDialog: {
+        float: "right"
     }
 };
 
@@ -88,38 +95,43 @@ class Scream extends Component {
         const deleteButton = authenticated && userHandle === handle ? (
             <DeleteScream screamId={screamId}/>
         ) : null;
+        const userLink = (<Typography
+            component={Link}
+            to={`/users/${userHandle}`}
+            color="primary"
+        >
+            {userHandle}
+        </Typography>);
         return (
             <Card className={classes.card}>
-                {
-                    userImage ? <CardMedia
-                        image={userImage}
-                        title="Profile image"
-                        className={classes.image}
-                    /> : <div/>
-                }
+                <CardHeader
+                    avatar={
+                        <Avatar
+                            alt={userHandle}
+                            className={classes.avatar}
+                            src={userImage}
+                        >
+                        </Avatar>
+                    }
+                    action={deleteButton}
+                    title={userLink}
+                    subheader={dayjs(createdAt).fromNow()}
+                />
+
                 <CardContent className={classes.content}>
-                    <Typography
-                        variant="h5"
-                        component={Link}
-                        to={`/users/${userHandle}`}
-                        color="primary"
-                    >
-                        {userHandle}
-                    </Typography>
-                    {deleteButton}
-                    <Typography variant="body2" color="textSecondary">
-                        {dayjs(createdAt).fromNow()}
-                    </Typography>
-                    <Typography variant="body1" color="textSecondary">
-                        {body}
-                    </Typography>
+                    <ReactMarkdown source={body} />
                     {likeButton}
                     <span>{likeCount} Likes</span>
                     <MyButton tip="comments">
                         <ChatIcon color="primary"/>
                     </MyButton>
                     <span>{commentCount} comments</span>
-                    <ScreamDialog screamId={screamId} userHandle={userHandle} />
+                    <div className={classes.screamDialog}>
+                        <ScreamDialog
+                            screamId={screamId}
+                            userHandle={userHandle}
+                        />
+                    </div>
                 </CardContent>
             </Card>
         )
