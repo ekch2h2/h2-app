@@ -18,6 +18,8 @@ import UnfoldMore from "@material-ui/icons/UnfoldMore";
 
 import MyButton from "../util/MyButton";
 import { getScream } from "../redux/actions/dataActions";
+import LikeButton from "./LikeButton";
+import ChatIcon from "@material-ui/icons/Chat";
 
 const styles = (theme) => ({
     ...theme.formStyles,
@@ -37,6 +39,14 @@ const styles = (theme) => ({
     closeButton: {
         position: "absolute",
         left: "90%"
+    },
+    expandButton: {
+        float: "right"
+    },
+    spinnerDiv: {
+        textAlign: "center",
+        marginTo: 50,
+        marginBottom: 50
     }
 });
 
@@ -61,13 +71,19 @@ class ScreamDialog extends Component {
                 body,
                 createdAt,
                 userImage,
-                userHandle
+                userHandle,
+                screamId,
+                commentCount,
+                likeCount
             },
             UI: { loading }
         } = this.props;
 
         const dialogMarkup = loading ? (
-            <CircularProgress size={200}/>
+            <div className={classes.spinnerDiv}>
+                <CircularProgress size={200}/>
+            </div>
+
         ) : (
             <Grid container spacing={16}>
                 <Grid item sm={5}>
@@ -90,6 +106,14 @@ class ScreamDialog extends Component {
                     <Typography variant="body1">
                         {body}
                     </Typography>
+
+                    <LikeButton screamId={screamId}/>
+                    <span>{likeCount} Likes</span>
+
+                    <MyButton tip="comments">
+                        <ChatIcon color="primary"/>
+                    </MyButton>
+                    <span>{commentCount} comments</span>
                 </Grid>
             </Grid>
         );
