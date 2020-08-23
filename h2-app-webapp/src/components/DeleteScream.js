@@ -14,11 +14,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DeleteOutline from "@material-ui/icons/DeleteOutline";
 
 const styles = {
-    deleteButton: {
-        position: 'absolute',
-        left: '90%',
-        top: '9%'
-    }
+
 };
 
 class DeleteScream extends Component {
