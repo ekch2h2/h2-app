@@ -8,10 +8,10 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import PropTyes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
-import MyButton from "../util/MyButton";
+import MyButton from "../../util/MyButton";
 import HomeIcon from "@material-ui/icons/Home";
 import NotificationIcon from "@material-ui/icons/Notifications";
-import PostScream from "./PostScream";
+import PostScream from "../scream/PostScream";
 
 const styles = {};
 

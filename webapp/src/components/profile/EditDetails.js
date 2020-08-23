@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import { connect } from "react-redux";
 import withStyles from '@material-ui/core/styles/withStyles';
-import { editUserDetails } from "../redux/actions/userActions";
+import { editUserDetails } from "../../redux/actions/userActions";
 import PropTypes from "prop-types";
 
 // MUI
@@ -14,10 +14,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 // Icon
 import EditIcon from "@material-ui/icons/Edit";
-import MyButton from "../util/MyButton";
+import MyButton from "../../util/MyButton";
 
 const styles = (theme) => ({
-    ...theme.formStyles,
+    ...theme.rootStyles,
     button: {
         float: "right"
     }

@@ -17,10 +17,10 @@ import Tooltip from "@material-ui/core/Tooltip";
 
 // Redux
 import { connect } from "react-redux";
-import { logoutUser, uploadImage } from "../redux/actions/userActions";
-import {KeyboardReturn} from "@material-ui/icons";
+import { logoutUser, uploadImage } from "../../redux/actions/userActions";
+import KeyboardReturn from "@material-ui/icons/KeyboardReturn";
 import EditDetails from "./EditDetails";
-import MyButton from "../util/MyButton";
+import MyButton from "../../util/MyButton";
 
 const styles = (theme) => ({
     paper: {

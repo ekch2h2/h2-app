@@ -16,17 +16,15 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import UnfoldMore from "@material-ui/icons/UnfoldMore";
 
-import MyButton from "../util/MyButton";
-import { getScream } from "../redux/actions/dataActions";
+import MyButton from "../../util/MyButton";
+import { getScream } from "../../redux/actions/dataActions";
 import LikeButton from "./LikeButton";
 import ChatIcon from "@material-ui/icons/Chat";
+import Comments from "./Comments";
+import ReactMarkdown from "react-markdown";
 
 const styles = (theme) => ({
-    ...theme.formStyles,
-    invisibleSeparator: {
-        border: "none",
-        margin: 4
-    },
+    ...theme.rootStyles,
     profileImage: {
         maxWidth: 200,
         height: 200,
@@ -74,7 +72,8 @@ class ScreamDialog extends Component {
                 userHandle,
                 screamId,
                 commentCount,
-                likeCount
+                likeCount,
+                comments
             },
             UI: { loading }
         } = this.props;
@@ -103,9 +102,7 @@ class ScreamDialog extends Component {
                         {dayjs(createdAt).format("h:mm a, MMMM DD YYYY")}
                     </Typography>
                     <hr className={classes.invisibleSeparator}/>
-                    <Typography variant="body1">
-                        {body}
-                    </Typography>
+                    <ReactMarkdown source={body} />
 
                     <LikeButton screamId={screamId}/>
                     <span>{likeCount} Likes</span>
@@ -115,6 +112,9 @@ class ScreamDialog extends Component {
                     </MyButton>
                     <span>{commentCount} comments</span>
                 </Grid>
+                {/* TODO: comment input */}
+                <hr className={classes.visibleSeparator} />
+                <Comments comments={comments} />
             </Grid>
         );
         return (

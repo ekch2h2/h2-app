@@ -14,7 +14,7 @@ import { signupUser } from "../redux/actions/userActions";
 
 const styles = (theme) => {
     return {
-        ...theme.formStyles
+        ...theme.rootStyles
     };
 };
 

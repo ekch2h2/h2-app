@@ -3,8 +3,8 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 
 import { connect } from "react-redux";
-import { deleteScream } from "../redux/actions/dataActions";
-import MyButton from "../util/MyButton";
+import { deleteScream } from "../../redux/actions/dataActions";
+import MyButton from "../../util/MyButton";
 
 // MUI
 import Button from "@material-ui/core/Button";

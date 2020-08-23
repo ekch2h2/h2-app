@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import { connect } from "react-redux";
 import withStyles from '@material-ui/core/styles/withStyles';
-import {clearErrors, postScream} from "../redux/actions/dataActions";
+import {clearErrors, postScream} from "../../redux/actions/dataActions";
 import PropTypes from "prop-types";
 
 // MUI
@@ -15,10 +15,10 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 // Icon
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
-import MyButton from "../util/MyButton";
+import MyButton from "../../util/MyButton";
 
 const styles = (theme) => ({
-    ...theme.formStyles,
+    ...theme.rootStyles,
     submitButton: {
         margin: "10px auto 10px auto",
         position: "relative",
