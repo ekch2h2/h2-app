@@ -14,11 +14,13 @@ const { signup, login, addUserDetails, getAuthenticatedUser, uploadImage,
 const express = require("express");
 const FBAuth = require('./util/fbAuth');
 const app = express();
+const cors = require('cors');
 const { db } = require('./util/admin');
 const {
     logError
 } = require('./util/common');
 
+app.use(cors());
 // Scream routes
 app.get("/screams", getAllScreams);
 app.post("/scream", FBAuth, postOneScream);
