@@ -40,11 +40,11 @@ class DeleteScream extends Component {
 
         return (
             <Fragment>
-                <MyButton tip="Delete Scream"
+                <MyButton tip="Delete Announcement"
                           onClick={this.handleOpen}
                           btnClassName={classes.deleteButton}
                 >
-                    <DeleteOutline color="secondary"/>
+                    <DeleteOutline color="primary"/>
                 </MyButton>
                 <Dialog
                     open={this.state.open}
