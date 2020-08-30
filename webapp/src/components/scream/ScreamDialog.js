@@ -17,11 +17,12 @@ import CloseIcon from "@material-ui/icons/Close";
 import UnfoldMore from "@material-ui/icons/UnfoldMore";
 
 import MyButton from "../../util/MyButton";
-import { getScream } from "../../redux/actions/dataActions";
+import { getScream, clearErrors } from "../../redux/actions/dataActions";
 import LikeButton from "./LikeButton";
 import ChatIcon from "@material-ui/icons/Chat";
 import Comments from "./Comments";
 import ReactMarkdown from "react-markdown";
+import CommentForm from "./CommentForm";
 
 const styles = (theme) => ({
     ...theme.rootStyles,
@@ -50,16 +51,35 @@ const styles = (theme) => ({
 
 class ScreamDialog extends Component {
     state = {
-        open: false
+        open: false,
+        oldPath: "",
+        newPath: ""
     };
 
+    componentDidMount() {
+        if (this.props.openDialog) {
+            this.handleOpen();
+        }
+    }
+
     handleOpen = () => {
-        this.setState({ open: true });
+        let oldPath = window.location.pathname;
+        const { userHandle, screamId } = this.props;
+        const newPath = `/users/${userHandle}/scream/${screamId}`;
+
+        if (oldPath === newPath) {
+            oldPath = `/users/${userHandle}`;
+        }
+        window.history.pushState(null, null, newPath);
+
+        this.setState({ open: true, oldPath, newPath });
         this.props.getScream(this.props.screamId);
     };
 
     handleClose = () => {
-        this.setState({ open: false })
+        window.history.pushState(null, null, this.state.oldPath);
+        this.setState({ open: false });
+        this.props.clearErrors();
     };
 
     render() {
@@ -112,8 +132,8 @@ class ScreamDialog extends Component {
                     </MyButton>
                     <span>{commentCount} comments</span>
                 </Grid>
-                {/* TODO: comment input */}
                 <hr className={classes.visibleSeparator} />
+                <CommentForm screamId={screamId}/>
                 <Comments comments={comments} />
             </Grid>
         );
@@ -141,6 +161,7 @@ class ScreamDialog extends Component {
 
 ScreamDialog.propTypes = {
     getScream: PropTypes.func.isRequired,
+    clearErrors: PropTypes.func.isRequired,
     screamId: PropTypes.string.isRequired,
     userHandle: PropTypes.string.isRequired,
     scream: PropTypes.object.isRequired,
@@ -152,4 +173,4 @@ const mapStateToProps = (state) => ({
     UI: state.UI
 });
 
-export default connect(mapStateToProps, { getScream })(withStyles(styles)(ScreamDialog));
+export default connect(mapStateToProps, { getScream, clearErrors })(withStyles(styles)(ScreamDialog));

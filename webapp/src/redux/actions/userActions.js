@@ -4,7 +4,7 @@ import {
     CLEAR_ERRORS,
     LOADING_UI,
     SET_UNAUTHENTICATED,
-    LOADING_USER
+    LOADING_USER, MARK_NOTIFCATIONS_READ
 } from "../types";
 import axios from "axios";
 
@@ -63,7 +63,7 @@ export const signupUser = (newUserData, history) => (dispatch) => {
 
 export const logoutUser = () => (dispatch) => {
     localStorage.removeItem("FBIdToken");
-    delete axios.defaults.headers.common["Authentication"]
+    delete axios.defaults.headers.common["Authentication"];
     dispatch({ type: SET_UNAUTHENTICATED })
 };
 
@@ -90,3 +90,16 @@ export const editUserDetails = (userDetails) => (dispatch) => {
         })
         .catch(err => console.log(err));
 };
+
+export const markNotificationsRead = (notificationIds) => dispatch => {
+    axios.post("/notifications", notificationIds)
+        .then(res => {
+            dispatch({
+                type: MARK_NOTIFCATIONS_READ
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        })
+
+}

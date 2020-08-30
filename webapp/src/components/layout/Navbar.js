@@ -10,8 +10,8 @@ import PropTyes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import MyButton from "../../util/MyButton";
 import HomeIcon from "@material-ui/icons/Home";
-import NotificationIcon from "@material-ui/icons/Notifications";
 import PostScream from "../scream/PostScream";
+import Notifications from "./Notifications";
 
 const styles = {};
 
@@ -29,9 +29,7 @@ class Navbar extends Component {
                                     <HomeIcon/>
                                 </MyButton>
                             </Link>
-                            <MyButton tip="Notifications">
-                                <NotificationIcon/>
-                            </MyButton>
+                            <Notifications/>
                         </Fragment>
                     ) : <Fragment>
                         <Button color="inherit" component={Link} to="/login">
