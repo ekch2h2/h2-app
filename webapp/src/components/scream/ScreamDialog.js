@@ -23,14 +23,14 @@ import ChatIcon from "@material-ui/icons/Chat";
 import Comments from "./Comments";
 import ReactMarkdown from "react-markdown";
 import CommentForm from "./CommentForm";
+import Avatar from "@material-ui/core/Avatar";
+import Container from "@material-ui/core/Container";
 
 const styles = (theme) => ({
     ...theme.rootStyles,
-    profileImage: {
-        maxWidth: 200,
-        height: 200,
-        borderRadius: "50%",
-        objectFit: "cover"
+    avatar: {
+        height: "80%",
+        width: "80%"
     },
     dialogContent: {
         padding: 20
@@ -104,11 +104,11 @@ class ScreamDialog extends Component {
             </div>
 
         ) : (
-            <Grid container spacing={16}>
-                <Grid item sm={5}>
-                    <img src={userImage} alt="Profile" className={classes.profileImage}/>
+            <Grid container>
+                <Grid item sm={2}>
+                    <Avatar alt={userHandle} src={userImage} className={classes.avatar} />
                 </Grid>
-                <Grid item sm={7}>
+                <Grid item sm={10}>
                     <Typography
                         component={Link}
                         color="primary"
@@ -121,9 +121,11 @@ class ScreamDialog extends Component {
                     <Typography variant="body2" color="textSecondary">
                         {dayjs(createdAt).format("h:mm a, MMMM DD YYYY")}
                     </Typography>
-                    <hr className={classes.invisibleSeparator}/>
-                    <ReactMarkdown source={body} />
+                </Grid>
+                <hr className={classes.invisibleSeparator}/>
+                <ReactMarkdown source={body} />
 
+                <Container>
                     <LikeButton screamId={screamId}/>
                     <span>{likeCount} Likes</span>
 
@@ -131,7 +133,7 @@ class ScreamDialog extends Component {
                         <ChatIcon color="primary"/>
                     </MyButton>
                     <span>{commentCount} comments</span>
-                </Grid>
+                </Container>
                 <hr className={classes.visibleSeparator} />
                 <CommentForm screamId={screamId}/>
                 <Comments comments={comments} />
