@@ -9,7 +9,7 @@ import PropTyes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import MyButton from "../../util/MyButton";
 import HomeIcon from "@material-ui/icons/Home";
-import PostScream from "../scream/PostScream";
+import PostAnnouncement from "../announcement/PostAnnouncement";
 import Notifications from "./Notifications";
 
 const styles = {};
@@ -22,7 +22,7 @@ class Navbar extends Component {
                 <Toolbar className="nav-container">
                     {authenticated ? (
                         <Fragment>
-                            <PostScream />
+                            <PostAnnouncement />
                             <Link to="/">
                                 <MyButton tip="Home">
                                     <HomeIcon/>

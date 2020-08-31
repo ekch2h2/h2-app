@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import Scream from '../components/scream/Scream';
+import Scream from '../components/announcement/Announcement';
 import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
 import { getScreams } from "../redux/actions/dataActions";
-import ScreamSkeleton from "../util/ScreamSkeleton";
+import AnnouncementSkeleton from "../util/AnnouncementSkeleton";
 
 class home extends Component {
     componentDidMount() {
@@ -16,7 +16,7 @@ class home extends Component {
 
         return !loading ? (
             screams.map(scream => <Scream key={scream.screamId} scream={scream}/>)
-        ) : <ScreamSkeleton />;
+        ) : <AnnouncementSkeleton />;
     }
 }
 

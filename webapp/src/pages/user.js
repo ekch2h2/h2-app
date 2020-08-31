@@ -5,10 +5,10 @@ import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
 import { getUserData } from "../redux/actions/dataActions";
 import axios from "axios";
-import Scream from "../components/scream/Scream";
-import StaticProfile from "../components/profile/StaticProfile";
-import ScreamSkeleton from "../util/ScreamSkeleton";
+import Scream from "../components/announcement/Announcement";
+import AnnouncementSkeleton from "../util/AnnouncementSkeleton";
 import ProfileSkeleton from "../util/ProfileSkeleton";
+import Profile from "../components/profile/Profile";
 
 class user extends Component {
     state = {
@@ -38,7 +38,7 @@ class user extends Component {
         const { screamIdParam } = this.state;
 
         const screamsMarkup = loading ? (
-            <ScreamSkeleton />
+            <AnnouncementSkeleton />
             ) : screams === null ? (
                 <p>No screams from this user</p>
             ) : !screamIdParam ? (
@@ -62,7 +62,7 @@ class user extends Component {
                     {!this.state.profile ? (
                         <ProfileSkeleton />
                     ) : (
-                        <StaticProfile profile={this.state.profile}/>
+                        <Profile />
                     )}
                 </Grid>
             </Grid>

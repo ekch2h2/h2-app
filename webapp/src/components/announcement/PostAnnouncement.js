@@ -34,7 +34,7 @@ const styles = (theme) => ({
     }
 });
 
-class PostScream extends Component {
+class PostAnnouncement extends Component {
     state = {
         open: false,
         body: "",
@@ -135,7 +135,7 @@ class PostScream extends Component {
     }
 }
 
-PostScream.propTypes = {
+PostAnnouncement.propTypes = {
     postScream: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
@@ -145,4 +145,4 @@ const mapStateToProps = (state) => ({
     UI: state.UI
 });
 
-export default connect(mapStateToProps, { postScream, clearErrors })(withStyles(styles)(PostScream));
+export default connect(mapStateToProps, { postScream, clearErrors })(withStyles(styles)(PostAnnouncement));

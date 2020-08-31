@@ -50,7 +50,7 @@ const styles = (theme) => ({
 
 });
 
-const ScreamSkeleton = (props) => {
+const AnnouncementSkeleton = (props) => {
     const { classes } = props;
     const content = Array
         .from({ length: 5})
@@ -75,8 +75,8 @@ const ScreamSkeleton = (props) => {
 };
 
 
-ScreamSkeleton.propTypes = {
+AnnouncementSkeleton.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-export default withStyle(styles)(ScreamSkeleton);
+export default withStyle(styles)(AnnouncementSkeleton);

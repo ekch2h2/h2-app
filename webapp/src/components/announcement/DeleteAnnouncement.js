@@ -17,7 +17,7 @@ const styles = {
 
 };
 
-class DeleteScream extends Component {
+class DeleteAnnouncement extends Component {
     state = {
         open: false
     };
@@ -69,10 +69,10 @@ class DeleteScream extends Component {
     }
 }
 
-DeleteScream.propTypes = {
+DeleteAnnouncement.propTypes = {
     deleteScream: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
     screamId: PropTypes.string.isRequired
 };
 
-export default connect(null, { deleteScream })(withStyles(styles)(DeleteScream));
+export default connect(null, { deleteScream })(withStyles(styles)(DeleteAnnouncement));

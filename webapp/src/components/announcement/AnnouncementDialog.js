@@ -49,7 +49,7 @@ const styles = (theme) => ({
     }
 });
 
-class ScreamDialog extends Component {
+class AnnouncementDialog extends Component {
     state = {
         open: false,
         oldPath: "",
@@ -161,7 +161,7 @@ class ScreamDialog extends Component {
     }
 }
 
-ScreamDialog.propTypes = {
+AnnouncementDialog.propTypes = {
     getScream: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired,
     screamId: PropTypes.string.isRequired,
@@ -175,4 +175,4 @@ const mapStateToProps = (state) => ({
     UI: state.UI
 });
 
-export default connect(mapStateToProps, { getScream, clearErrors })(withStyles(styles)(ScreamDialog));
+export default connect(mapStateToProps, { getScream, clearErrors })(withStyles(styles)(AnnouncementDialog));

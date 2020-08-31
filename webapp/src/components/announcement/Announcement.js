@@ -13,8 +13,8 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { connect } from "react-redux";
 import MyButton from "../../util/MyButton";
 import ChatIcon from "@material-ui/icons/Chat";
-import DeleteScream from "./DeleteScream";
-import ScreamDialog from "./ScreamDialog";
+import DeleteAnnouncement from "./DeleteAnnouncement";
+import AnnouncementDialog from "./AnnouncementDialog";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
 import ReactMarkdown from 'react-markdown';
@@ -34,7 +34,7 @@ const styles = {
     }
 };
 
-class Scream extends Component {
+class Announcement extends Component {
     render() {
         dayjs.extend(relativeTime);
 
@@ -56,7 +56,7 @@ class Scream extends Component {
             openDialog
         } = this.props;
         const deleteButton = authenticated && userHandle === handle ? (
-            <DeleteScream screamId={screamId}/>
+            <DeleteAnnouncement screamId={screamId}/>
         ) : null;
         const userLink = (<Typography
             component={Link}
@@ -89,7 +89,7 @@ class Scream extends Component {
                         <ChatIcon color="primary"/>
                     </MyButton>
                     <span>{commentCount} comments</span>
-                    <ScreamDialog
+                    <AnnouncementDialog
                         screamId={screamId}
                         userHandle={userHandle}
                         openDialog={openDialog}
@@ -100,7 +100,7 @@ class Scream extends Component {
     }
 }
 
-Scream.propTypes = {
+Announcement.propTypes = {
     user: PropTypes.object.isRequired,
     scream: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
@@ -110,4 +110,4 @@ Scream.propTypes = {
 const mapStateToProps = state => ({
     user: state.user
 });
-export default connect(mapStateToProps)(withStyles(styles)(Scream));
+export default connect(mapStateToProps)(withStyles(styles)(Announcement));
