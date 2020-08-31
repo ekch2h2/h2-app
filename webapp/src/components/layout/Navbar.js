@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 // MUI stuff
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import PropTyes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -31,18 +30,9 @@ class Navbar extends Component {
                             </Link>
                             <Notifications/>
                         </Fragment>
-                    ) : <Fragment>
-                        <Button color="inherit" component={Link} to="/login">
-                            Login
-                        </Button>
-                        <Button color="inherit" component={Link} to="/">
-                            Home
-                        </Button>
-                        <Button color="inherit" component={Link} to="/signup">
-                            Signup
-                        </Button>
-                    </Fragment>
-                    }
+                    ) : (
+                        <div/>
+                    )}
                 </Toolbar>
             </AppBar>
         )
