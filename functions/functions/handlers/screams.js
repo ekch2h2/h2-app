@@ -1,4 +1,4 @@
-const { validateScream } = require("../util/validators");
+const { validateScream, validateAnnouncementBody } = require("../util/validators");
 const { db, admin } = require("../util/admin");
 
 exports.getAllScreams = (req, res) => {
@@ -69,6 +69,26 @@ exports.getScream = (req, res) => {
             return res.json(screamData);
         })
         .catch( err => {
+            console.log(err);
+            return res.status(500).json({error: err.code})
+        });
+};
+
+exports.updateAnnouncement = (req, res) => {
+    const announcementId = req.params.announcementId;
+    const body = req.body.body;
+    const { errors, valid } = validateAnnouncementBody(body);
+
+    if (!valid) {
+        return res.status(400).json(errors)
+    }
+
+    console.log(`AnnouncementId: ${announcementId}`);
+    db.doc(`/screams/${announcementId}`).update("body", body)
+        .then(() => {
+            return res.json({ message: "Announcement updated successfully"})
+        })
+        .catch(err => {
             console.log(err);
             return res.status(500).json({error: err.code})
         });

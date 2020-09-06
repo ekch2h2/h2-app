@@ -92,3 +92,16 @@ exports.validateScream = data => {
         valid: Object.keys(errors).length === 0
     }
 };
+
+exports.validateAnnouncementBody = body => {
+    let errors = {};
+
+    if (isEmpty(body)) {
+        errors.body = "Scream body must not be empty"
+    }
+
+    return {
+        errors,
+        valid: Object.keys(errors).length === 0
+    }
+};

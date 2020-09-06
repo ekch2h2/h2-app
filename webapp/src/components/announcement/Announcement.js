@@ -19,6 +19,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
 import ReactMarkdown from 'react-markdown';
 import LikeButton from "./LikeButton";
+import EditAnnouncement from "./EditAnnouncement";
 
 const styles = {
     card: {
@@ -58,6 +59,15 @@ class Announcement extends Component {
         const deleteButton = authenticated && userHandle === handle ? (
             <DeleteAnnouncement screamId={screamId}/>
         ) : null;
+        const editButton = authenticated && userHandle === handle ? (
+            <EditAnnouncement screamId={screamId}/>
+        ) : null;
+        const actionsMarkup = (
+            <div>
+                {editButton}
+                {deleteButton}
+            </div>
+        );
         const userLink = (<Typography
             component={Link}
             to={`/users/${userHandle}`}
@@ -76,7 +86,7 @@ class Announcement extends Component {
                         >
                         </Avatar>
                     }
-                    action={deleteButton}
+                    action={actionsMarkup}
                     title={userLink}
                     subheader={dayjs(createdAt).fromNow()}
                 />

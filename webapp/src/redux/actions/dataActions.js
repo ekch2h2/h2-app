@@ -62,6 +62,20 @@ export const postScream = (newScream) => dispatch => {
         })
 };
 
+export const updateAnnouncement = (announcementId, body) => dispatch => {
+    dispatch({ type: LOADING_UI });
+    axios.post(`/announcement/${announcementId}`, { body: body })
+        .then(() => {
+            dispatch(getScreams());
+        })
+        .catch(err => {
+            dispatch({
+                type: SET_ERRORS,
+                payload: err.response.data
+            })
+        })
+};
+
 export const likeScream = (screamId) => dispatch => {
     axios.get(`/scream/${screamId}/like`)
         .then(res => {

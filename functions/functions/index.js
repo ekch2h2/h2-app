@@ -6,7 +6,9 @@ const {
     commentOnScream,
     likeScream,
     unlikeScream,
-    deleteScream } = require('./handlers/screams');
+    deleteScream,
+    updateAnnouncement
+} = require('./handlers/screams');
 const { signup, login, addUserDetails, getAuthenticatedUser, uploadImage,
     getUserDetails,
     markNotificationsRead
@@ -25,6 +27,7 @@ app.use(cors());
 app.get("/screams", getAllScreams);
 app.post("/scream", FBAuth, postOneScream);
 app.get("/scream/:screamId", getScream);
+app.post("/announcement/:announcementId", FBAuth, updateAnnouncement);
 app.delete("/scream/:screamId", FBAuth, deleteScream);
 app.get("/scream/:screamId/like", FBAuth, likeScream);
 app.get("/scream/:screamId/unlike", FBAuth, unlikeScream);
