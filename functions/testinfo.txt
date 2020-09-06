@@ -1,2 +1,0 @@
-Username: user123@email.com
-Pswd: 123456

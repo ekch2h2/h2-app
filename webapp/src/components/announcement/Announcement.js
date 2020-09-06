@@ -60,7 +60,10 @@ class Announcement extends Component {
             <DeleteAnnouncement screamId={screamId}/>
         ) : null;
         const editButton = authenticated && userHandle === handle ? (
-            <EditAnnouncement screamId={screamId}/>
+            <EditAnnouncement
+                screamId={screamId}
+                userHandle={userHandle}
+            />
         ) : null;
         const actionsMarkup = (
             <div>
