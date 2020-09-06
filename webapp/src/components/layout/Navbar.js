@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 // MUI stuff
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import PropTyes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -16,13 +17,17 @@ const styles = {};
 
 class Navbar extends Component {
     render() {
-        const { authenticated } = this.props;
+        const {
+            authenticated,
+            isAnnouncementProvider
+        } = this.props;
+
         return (
             <AppBar>
                 <Toolbar className="nav-container">
                     {authenticated ? (
                         <Fragment>
-                            <PostAnnouncement />
+                            { !!isAnnouncementProvider ? <PostAnnouncement /> : <div/>}
                             <Link to="/">
                                 <MyButton tip="Home">
                                     <HomeIcon/>
@@ -30,9 +35,18 @@ class Navbar extends Component {
                             </Link>
                             <Notifications/>
                         </Fragment>
-                    ) : (
-                        <div/>
-                    )}
+                    ) : <Fragment>
+                        <Button color="inherit" component={Link} to="/login">
+                            Login
+                        </Button>
+                        <Button color="inherit" component={Link} to="/">
+                            Home
+                        </Button>
+                        <Button color="inherit" component={Link} to="/signup">
+                            Signup
+                        </Button>
+                    </Fragment>
+                    }
                 </Toolbar>
             </AppBar>
         )
@@ -44,7 +58,8 @@ Navbar.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    authenticated: state.user.authenticated
+    authenticated: state.user.authenticated,
+    isAnnouncementProvider: state.user.credentials.isAnnouncementProvider
 });
 
 export default connect(mapStateToProps)(withStyles(styles)(Navbar))

@@ -15,7 +15,9 @@ class home extends Component {
         const { screams, loading } = this.props.data;
 
         return !loading ? (
-            screams.map(scream => <Scream key={scream.screamId} scream={scream}/>)
+            screams
+                .filter(scream => !scream.isArchived)
+                .map(scream => <Scream key={scream.screamId} scream={scream}/>)
         ) : <AnnouncementSkeleton />;
     }
 }

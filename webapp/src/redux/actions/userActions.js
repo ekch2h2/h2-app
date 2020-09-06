@@ -102,4 +102,4 @@ export const markNotificationsRead = (notificationIds) => dispatch => {
             console.log(err);
         })
 
-}
+};
