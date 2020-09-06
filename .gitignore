@@ -1,0 +1,4 @@
+node_modules/
+*firebase-adminsdk*
+.firebase
+firebase-debug.log
