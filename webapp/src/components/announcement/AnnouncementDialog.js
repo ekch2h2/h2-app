@@ -46,6 +46,9 @@ const styles = (theme) => ({
         textAlign: "center",
         marginTo: 50,
         marginBottom: 50
+    },
+    markdownContainer: {
+        display: "block"
     }
 });
 
@@ -122,8 +125,10 @@ class AnnouncementDialog extends Component {
                         {dayjs(createdAt).format("h:mm a, MMMM DD YYYY")}
                     </Typography>
                 </Grid>
-                <hr className={classes.invisibleSeparator}/>
-                <ReactMarkdown source={body} />
+                <div className={classes.markdownContainer}>
+                    <hr className={classes.invisibleSeparator}/>
+                    <ReactMarkdown source={body}/>
+                </div>
 
                 <Container>
                     <LikeButton announcementId={announcementId}/>
