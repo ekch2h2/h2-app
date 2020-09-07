@@ -80,11 +80,11 @@ exports.reduceUserDetails = data => {
     return userDetails;
 };
 
-exports.validateScream = data => {
+exports.validateAnnouncement = data => {
     let errors = {};
 
     if (isEmpty(data.body)) {
-        errors.body = "Scream body must not be empty"
+        errors.body = "Announcement body must not be empty"
     }
 
     return {
@@ -97,7 +97,7 @@ exports.validateAnnouncementBody = body => {
     let errors = {};
 
     if (isEmpty(body)) {
-        errors.body = "Scream body must not be empty"
+        errors.body = "Announcement body must not be empty"
     }
 
     return {

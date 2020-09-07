@@ -1,18 +1,18 @@
 import {
-    SET_SCREAMS,
-    LIKE_SCREAM,
-    UNLIKE_SCREAM,
+    SET_ANNOUNCEMENTS,
+    LIKE_ANNOUNCEMENT,
+    UNLIKE_ANNOUNCEMENT,
     LOADING_DATA,
-    DELETE_SCREAM,
-    POST_SCREAM,
-    SET_SCREAM,
+    DELETE_ANNOUNCEMENT,
+    POST_ANNOUNCEMENT,
+    SET_ANNOUNCEMENT,
     SUBMIT_COMMENT
 } from "../types";
 
 
 const initialState = {
-    screams: [],
-    scream: {},
+    announcements: [],
+    announcement: {},
     loading: false
 };
 
@@ -23,49 +23,53 @@ export default function(state = initialState, action) {
                 ...state,
                 loading: true
             };
-        case SET_SCREAMS:
+        case SET_ANNOUNCEMENTS:
             return {
                 ...state,
-                screams: action.payload,
+                announcements: action.payload,
                 loading: false
             };
-        case SET_SCREAM:
+        case SET_ANNOUNCEMENT:
             return {
                 ...state,
-                scream: action.payload
+                announcement: action.payload
             };
-        case LIKE_SCREAM:
-        case UNLIKE_SCREAM:
-            let index = state.screams.findIndex((scream) => scream.screamId === action.payload.screamId);
-            state.screams[index] = action.payload;
-            if(state.scream.screamId === action.payload.screamId) {
-                state.scream = action.payload
+        case LIKE_ANNOUNCEMENT:
+        case UNLIKE_ANNOUNCEMENT:
+            let index = state.announcements
+                .findIndex((ann) => ann.announcementId === action.payload.announcementId);
+            state.announcements[index] = action.payload;
+            if(state.announcement.announcementId === action.payload.announcementId) {
+                state.announcement = {
+                    ...state.announcement,
+                    ...action.payload
+                }
             }
             return {
                 ...state
             };
-        case DELETE_SCREAM:
-            let deleteIdx = state.screams.findIndex(scream => scream.screamId === action.payload);
-            state.screams.splice(deleteIdx, 1);
+        case DELETE_ANNOUNCEMENT:
+            let deleteIdx = state.announcements.findIndex(ann => ann.announcementId === action.payload);
+            state.announcements.splice(deleteIdx, 1);
             return {
                 ...state
             };
-        case POST_SCREAM:
+        case POST_ANNOUNCEMENT:
             return {
                 ...state,
-                screams: [
+                announcements: [
                     action.payload,
-                    ...state.screams
+                    ...state.announcements
                 ]
             };
         case SUBMIT_COMMENT:
             return {
                 ...state,
-                scream: {
-                    ...state.scream,
+                announcement: {
+                    ...state.announcement,
                     comments: [
                         action.payload,
-                        ...state.scream.comments
+                        ...state.announcement.comments
                     ]
                 }
             };

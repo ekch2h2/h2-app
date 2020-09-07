@@ -24,7 +24,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "firebase deploy --only hosting"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -41,5 +42,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://us-central1-h2-app.cloudfunctions.net/api"
+  "proxy": "https://us-central1-h2-app.cloudfunctions.net/api",
+  "proxy-test": "http://localhost:5000/h2-app/us-central1/api"
 }

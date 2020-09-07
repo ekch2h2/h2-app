@@ -17,7 +17,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import UnfoldMore from "@material-ui/icons/UnfoldMore";
 
 import MyButton from "../../util/MyButton";
-import { getScream, clearErrors } from "../../redux/actions/dataActions";
+import { getAnnouncement, clearErrors } from "../../redux/actions/dataActions";
 import LikeButton from "./LikeButton";
 import ChatIcon from "@material-ui/icons/Chat";
 import Comments from "./Comments";
@@ -64,8 +64,8 @@ class AnnouncementDialog extends Component {
 
     handleOpen = () => {
         let oldPath = window.location.pathname;
-        const { userHandle, screamId } = this.props;
-        const newPath = `/users/${userHandle}/scream/${screamId}`;
+        const { userHandle, announcementId } = this.props;
+        const newPath = `/users/${userHandle}/announcement/${announcementId}`;
 
         if (oldPath === newPath) {
             oldPath = `/users/${userHandle}`;
@@ -73,7 +73,7 @@ class AnnouncementDialog extends Component {
         window.history.pushState(null, null, newPath);
 
         this.setState({ open: true, oldPath, newPath });
-        this.props.getScream(this.props.screamId);
+        this.props.getAnnouncement(this.props.announcementId);
     };
 
     handleClose = () => {
@@ -85,12 +85,12 @@ class AnnouncementDialog extends Component {
     render() {
         const {
             classes,
-            scream : {
+            announcement : {
                 body,
                 createdAt,
                 userImage,
                 userHandle,
-                screamId,
+                announcementId,
                 commentCount,
                 likeCount,
                 comments
@@ -126,7 +126,7 @@ class AnnouncementDialog extends Component {
                 <ReactMarkdown source={body} />
 
                 <Container>
-                    <LikeButton screamId={screamId}/>
+                    <LikeButton announcementId={announcementId}/>
                     <span>{likeCount} Likes</span>
 
                     <MyButton tip="comments">
@@ -135,13 +135,13 @@ class AnnouncementDialog extends Component {
                     <span>{commentCount} comments</span>
                 </Container>
                 <hr className={classes.visibleSeparator} />
-                <CommentForm screamId={screamId}/>
+                <CommentForm announcementId={announcementId}/>
                 <Comments comments={comments} />
             </Grid>
         );
         return (
             <Fragment>
-                <MyButton onClick={this.handleOpen} tip="Expand scream" tipClassName={classes.expandButton}>
+                <MyButton onClick={this.handleOpen} tip="Expand announcement" tipClassName={classes.expandButton}>
                     <UnfoldMore color="primary" />
                 </MyButton>
                 <Dialog
@@ -162,17 +162,17 @@ class AnnouncementDialog extends Component {
 }
 
 AnnouncementDialog.propTypes = {
-    getScream: PropTypes.func.isRequired,
+    getAnnouncement: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired,
-    screamId: PropTypes.string.isRequired,
+    announcementId: PropTypes.string.isRequired,
     userHandle: PropTypes.string.isRequired,
-    scream: PropTypes.object.isRequired,
+    announcement: PropTypes.object.isRequired,
     UI: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-    scream: state.data.scream,
+    announcement: state.data.announcement,
     UI: state.UI
 });
 
-export default connect(mapStateToProps, { getScream, clearErrors })(withStyles(styles)(AnnouncementDialog));
+export default connect(mapStateToProps, { getAnnouncement, clearErrors })(withStyles(styles)(AnnouncementDialog));

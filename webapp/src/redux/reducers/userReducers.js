@@ -1,10 +1,11 @@
 import {
     SET_USER,
+    LOADING_USER,
     SET_AUTHENTICATED,
     SET_UNAUTHENTICATED,
-    LOADING_USER,
-    LIKE_SCREAM,
-    UNLIKE_SCREAM, MARK_NOTIFCATIONS_READ
+    LIKE_ANNOUNCEMENT,
+    UNLIKE_ANNOUNCEMENT,
+    MARK_NOTIFCATIONS_READ
 } from "../types";
 
 const initialState = {
@@ -35,21 +36,21 @@ export default function(state = initialState, action) {
                 ...state,
                 loading: true
             };
-        case LIKE_SCREAM:
+        case LIKE_ANNOUNCEMENT:
             return {
                 ...state,
                 likes: [
                     ...state.likes,
                     {
                         userHandle: state.credentials.handle,
-                        screamId: action.payload.screamId
+                        announcementId: action.payload.announcementId
                     }
                 ]
             };
-        case UNLIKE_SCREAM:
+        case UNLIKE_ANNOUNCEMENT:
             return {
                 ...state,
-                likes: state.likes.filter(like => like.screamId !== action.payload.screamId)
+                likes: state.likes.filter(like => like.announcementId !== action.payload.announcementId)
             };
         case MARK_NOTIFCATIONS_READ:
             state.notifications.forEach(n => n.read = true);

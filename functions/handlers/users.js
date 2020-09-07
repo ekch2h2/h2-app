@@ -107,7 +107,7 @@ exports.getUserDetails = (req, res) => {
         .then(doc => {
             if (doc.exists) {
                 userData.user = doc.data()
-                return db.collection('screams').where('userHandle', '==', req.params.handle)
+                return db.collection('announcements').where('userHandle', '==', req.params.handle)
                     .orderBy('createdAt', 'desc')
                     .get();
             } else {
@@ -115,16 +115,16 @@ exports.getUserDetails = (req, res) => {
             }
         })
         .then(data => {
-            userData.screams = [];
+            userData.announcements = [];
             data.forEach(doc => {
-                userData.screams.push({
+                userData.announcements.push({
                     body: doc.data().body,
                     createdAt: doc.data().createdAt,
                     userHandle: doc.data().userHandle,
                     userImage: doc.data().userImage,
                     likeCount: doc.data().likeCount,
                     commentCount: doc.data().commentCount,
-                    screamId: doc.id
+                    announcementId: doc.id
                 })
             });
             return res.json(userData)
@@ -158,7 +158,7 @@ exports.getAuthenticatedUser = (req, res) => {
                     recipient: doc.data().recipient,
                     sender: doc.data().sender,
                     createdAt: doc.data().createdAt,
-                    screamId: doc.data().screamId,
+                    announcementId: doc.data().announcementId,
                     type: doc.data().type,
                     read: doc.data().read,
                     notificationId: doc.id

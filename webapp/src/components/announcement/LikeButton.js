@@ -3,7 +3,7 @@ import MyButton from "../../util/MyButton";
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {likeScream, unlikeScream} from "../../redux/actions/dataActions";
+import {likeAnnouncement, unlikeAnnouncement} from "../../redux/actions/dataActions";
 import withStyles from "@material-ui/core/styles/withStyles";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -13,17 +13,17 @@ const styles = {
 };
 
 class LikeButton extends Component {
-    likedScream = () => {
+    likedAnnouncement = () => {
         return !!(
             this.props.user.likes &&
-            this.props.user.likes.find(like => like.screamId === this.props.screamId)
+            this.props.user.likes.find(like => like.announcementId === this.props.announcementId)
         );
     };
-    likeScream = () => {
-        this.props.likeScream(this.props.screamId);
+    likeAnnouncement = () => {
+        this.props.likeAnnouncement(this.props.announcementId);
     };
-    unlikeScream = () => {
-        this.props.unlikeScream(this.props.screamId);
+    unlikeAnnouncement = () => {
+        this.props.unlikeAnnouncement(this.props.announcementId);
     };
 
     render() {
@@ -36,12 +36,12 @@ class LikeButton extends Component {
                 </MyButton>
             </Link>
         ) : (
-            this.likedScream() ? (
-                <MyButton tip="Undo like" onClick={this.unlikeScream}>
+            this.likedAnnouncement() ? (
+                <MyButton tip="Undo like" onClick={this.unlikeAnnouncement}>
                     <FavoriteIcon color="primary"/>
                 </MyButton>
             ) : (
-                <MyButton tip="like" onClick={this.likeScream}>
+                <MyButton tip="like" onClick={this.likeAnnouncement}>
                     <FavoriteBorder color="primary"/>
                 </MyButton>
             )
@@ -51,14 +51,16 @@ class LikeButton extends Component {
 
 
 LikeButton.propTypes = {
-    likeScream: PropTypes.func.isRequired,
-    unlikeScream: PropTypes.func.isRequired,
+    likeAnnouncement: PropTypes.func.isRequired,
+    unlikeAnnouncement: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
-    screamId: PropTypes.string.isRequired,
+    announcementId: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
     user: state.user
 });
 
-export default connect(mapStateToProps, { likeScream, unlikeScream })(withStyles(styles)(LikeButton));
+const mapActionToProps = { likeAnnouncement, unlikeAnnouncement };
+
+export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(LikeButton));

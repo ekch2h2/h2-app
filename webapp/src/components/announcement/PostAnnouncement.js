@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import { connect } from "react-redux";
 import withStyles from '@material-ui/core/styles/withStyles';
-import {clearErrors, postScream} from "../../redux/actions/dataActions";
+import {clearErrors, postAnnouncement} from "../../redux/actions/dataActions";
 import PropTypes from "prop-types";
 
 // MUI
@@ -74,7 +74,7 @@ class PostAnnouncement extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.postScream({body: this.state.body});
+        this.props.postAnnouncement({body: this.state.body});
     };
 
     render() {
@@ -136,7 +136,7 @@ class PostAnnouncement extends Component {
 }
 
 PostAnnouncement.propTypes = {
-    postScream: PropTypes.func.isRequired,
+    postAnnouncement: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
 };
@@ -145,4 +145,4 @@ const mapStateToProps = (state) => ({
     UI: state.UI
 });
 
-export default connect(mapStateToProps, { postScream, clearErrors })(withStyles(styles)(PostAnnouncement));
+export default connect(mapStateToProps, { postAnnouncement, clearErrors })(withStyles(styles)(PostAnnouncement));

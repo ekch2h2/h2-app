@@ -3,7 +3,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 
 import { connect } from "react-redux";
-import { deleteScream } from "../../redux/actions/dataActions";
+import { deleteAnnouncement } from "../../redux/actions/dataActions";
 import MyButton from "../../util/MyButton";
 
 // MUI
@@ -30,8 +30,8 @@ class DeleteAnnouncement extends Component {
         this.setState({ open: false })
     };
 
-    deleteScream = () => {
-        this.props.deleteScream(this.props.screamId);
+    deleteAnnouncement = () => {
+        this.props.deleteAnnouncement(this.props.announcementId);
         this.handleClose();
     };
 
@@ -53,13 +53,13 @@ class DeleteAnnouncement extends Component {
                     maxWidth="sm"
                     >
                     <DialogTitle>
-                        Are you sure you want to delete this scream?
+                        Are you sure you want to delete this announcement?
                     </DialogTitle>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">
                             Cancel
                         </Button>
-                        <Button onClick={this.deleteScream} color="secondary">
+                        <Button onClick={this.deleteAnnouncement} color="secondary">
                             Delete
                         </Button>
                     </DialogActions>
@@ -70,9 +70,9 @@ class DeleteAnnouncement extends Component {
 }
 
 DeleteAnnouncement.propTypes = {
-    deleteScream: PropTypes.func.isRequired,
+    deleteAnnouncement: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
-    screamId: PropTypes.string.isRequired
+    announcementId: PropTypes.string.isRequired
 };
 
-export default connect(null, { deleteScream })(withStyles(styles)(DeleteAnnouncement));
+export default connect(null, { deleteAnnouncement })(withStyles(styles)(DeleteAnnouncement));

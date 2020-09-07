@@ -41,14 +41,14 @@ class Announcement extends Component {
 
         const {
             classes,
-            scream: {
+            announcement: {
                 body,
                 createdAt,
                 userImage,
                 userHandle,
                 likeCount,
                 commentCount,
-                screamId
+                announcementId
             },
             user: {
                 authenticated,
@@ -57,11 +57,11 @@ class Announcement extends Component {
             openDialog
         } = this.props;
         const deleteButton = authenticated && userHandle === handle ? (
-            <DeleteAnnouncement screamId={screamId}/>
+            <DeleteAnnouncement announcementId={announcementId}/>
         ) : null;
         const editButton = authenticated && userHandle === handle ? (
             <EditAnnouncement
-                screamId={screamId}
+                announcementId={announcementId}
                 userHandle={userHandle}
             />
         ) : null;
@@ -96,14 +96,14 @@ class Announcement extends Component {
 
                 <CardContent className={classes.content}>
                     <ReactMarkdown source={body} />
-                    <LikeButton screamId={screamId}/>
+                    <LikeButton announcementId={announcementId}/>
                     <span>{likeCount} Likes</span>
                     <MyButton tip="comments">
                         <ChatIcon color="primary"/>
                     </MyButton>
                     <span>{commentCount} comments</span>
                     <AnnouncementDialog
-                        screamId={screamId}
+                        announcementId={announcementId}
                         userHandle={userHandle}
                         openDialog={openDialog}
                     />
@@ -115,7 +115,7 @@ class Announcement extends Component {
 
 Announcement.propTypes = {
     user: PropTypes.object.isRequired,
-    scream: PropTypes.object.isRequired,
+    announcement: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
     openDialog: PropTypes.bool
 };

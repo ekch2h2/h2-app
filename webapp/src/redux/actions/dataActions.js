@@ -1,39 +1,39 @@
 import {
-    SET_SCREAMS,
+    SET_ANNOUNCEMENTS,
     LOADING_DATA,
-    LIKE_SCREAM,
-    UNLIKE_SCREAM,
-    DELETE_SCREAM,
+    LIKE_ANNOUNCEMENT,
+    UNLIKE_ANNOUNCEMENT,
+    DELETE_ANNOUNCEMENT,
     CLEAR_ERRORS,
-    SET_ERRORS, LOADING_UI, POST_SCREAM, SET_SCREAM, STOP_LOADING_UI, SUBMIT_COMMENT
+    SET_ERRORS, LOADING_UI, POST_ANNOUNCEMENT, SET_ANNOUNCEMENT, STOP_LOADING_UI, SUBMIT_COMMENT
 } from "../types";
 import axios from 'axios';
 
-export const getScreams = () => dispatch => {
+export const getAnnouncements = () => dispatch => {
     dispatch({ type: LOADING_DATA });
-    axios.get("/screams")
+    axios.get("/announcements")
         .then(res => {
             dispatch({
-                type: SET_SCREAMS,
-                payload: res.data
+                type: SET_ANNOUNCEMENTS,
+                payload: res.data.map(s => ({...s, announcementId: s.announcementId}))
             })
         })
         .catch(err => {
             dispatch({
-                type: SET_SCREAMS,
+                type: SET_ANNOUNCEMENTS,
                 payload: []
             })
 
         })
 };
 
-export const getScream = (screamId) => dispatch => {
+export const getAnnouncement = (announcementId) => dispatch => {
     dispatch({ type: LOADING_UI });
-    axios.get(`/scream/${screamId}`)
+    axios.get(`/announcement/${announcementId}`)
         .then(res => {
             dispatch({
-                type: SET_SCREAM,
-                payload: res.data
+                type: SET_ANNOUNCEMENT,
+                payload: {...res.data, announcementId: res.data.announcementId}
             });
             dispatch({
                 type: STOP_LOADING_UI
@@ -44,13 +44,13 @@ export const getScream = (screamId) => dispatch => {
         })
 };
 
-export const postScream = (newScream) => dispatch => {
+export const postAnnouncement = (newAnnouncement) => dispatch => {
     dispatch({ type: LOADING_UI });
-    axios.post("/scream", newScream)
+    axios.post("/announcement", newAnnouncement)
         .then(res => {
             dispatch({
-                type: POST_SCREAM,
-                payload: res.data
+                type: POST_ANNOUNCEMENT,
+                payload: {...res.data, announcementId: res.data.announcementId}
             });
             dispatch(clearErrors())
         })
@@ -66,7 +66,7 @@ export const updateAnnouncement = (announcementId, body) => dispatch => {
     dispatch({ type: LOADING_UI });
     axios.post(`/announcement/${announcementId}`, { body: body })
         .then(() => {
-            dispatch(getScreams());
+            dispatch(getAnnouncements());
         })
         .catch(err => {
             dispatch({
@@ -76,30 +76,40 @@ export const updateAnnouncement = (announcementId, body) => dispatch => {
         })
 };
 
-export const likeScream = (screamId) => dispatch => {
-    axios.get(`/scream/${screamId}/like`)
+export const likeAnnouncement = (announcementId) => dispatch => {
+    axios.get(`/announcement/${announcementId}/like`)
         .then(res => {
             dispatch({
-                type: LIKE_SCREAM,
-                payload: res.data
+                type: LIKE_ANNOUNCEMENT,
+                payload: {...res.data, announcementId: res.data.announcementId}
             })
         })
         .catch(err => console.log(err))
 };
 
-export const unlikeScream = (screamId) => dispatch => {
-    axios.get(`/scream/${screamId}/unlike`)
+export const unlikeAnnouncement = (announcementId) => dispatch => {
+    axios.get(`/announcement/${announcementId}/unlike`)
         .then(res => {
             dispatch({
-                type: UNLIKE_SCREAM,
-                payload: res.data
+                type: UNLIKE_ANNOUNCEMENT,
+                payload: {...res.data, announcementId: res.data.announcementId}
             })
         })
         .catch(err => console.log(err))
 };
 
-export const submitComment = (screamId, commentData) => dispatch => {
-    axios.post(`/scream/${screamId}/comment`, commentData)
+export const deleteAnnouncement = (announcementId) => dispatch => {
+    axios.delete(`/announcement/${announcementId}`)
+        .then(() => {
+            dispatch({
+                type: DELETE_ANNOUNCEMENT, payload: announcementId
+            })
+        })
+        .catch(err => console.log(err));
+};
+
+export const submitComment = (announcementId, commentData) => dispatch => {
+    axios.post(`/announcement/${announcementId}/comment`, commentData)
         .then(res => {
             dispatch({
                 type: SUBMIT_COMMENT,
@@ -115,28 +125,18 @@ export const submitComment = (screamId, commentData) => dispatch => {
         })
 };
 
-export const deleteScream = (screamId) => dispatch => {
-    axios.delete(`/scream/${screamId}`)
-        .then(() => {
-            dispatch({
-                type: DELETE_SCREAM, payload: screamId
-            })
-        })
-        .catch(err => console.log(err));
-};
-
 export const getUserData = (userHandle) => dispatch => {
     dispatch({ type: LOADING_DATA });
     axios.get(`/user/${userHandle}`)
         .then((res) => {
             dispatch({
-                type: SET_SCREAMS,
-                payload: res.data.screams
+                type: SET_ANNOUNCEMENTS,
+                payload: res.data.announcements
             })
         })
         .catch(() => {
             dispatch({
-                type: SET_SCREAMS,
+                type: SET_ANNOUNCEMENTS,
                 payload: null
             });
         });

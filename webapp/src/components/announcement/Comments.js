@@ -8,7 +8,6 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 // Redux
 import { connect } from "react-redux";
-import { getScream } from "../../redux/actions/dataActions";
 
 const styles = (theme) => ({
     ...theme.rootStyles,
@@ -76,8 +75,8 @@ Comments.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-    scream: state.data.scream,
+    announcement: state.data.announcement,
     UI: state.UI
 });
 
-export default connect(mapStateToProps, { getScream })(withStyles(styles)(Comments));
+export default connect(mapStateToProps)(withStyles(styles)(Comments));

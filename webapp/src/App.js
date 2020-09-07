@@ -25,6 +25,7 @@ import user from './pages/user';
 const theme = createMuiTheme(themeFile);
 
 axios.defaults.baseURL = "https://us-central1-h2-app.cloudfunctions.net/api";
+// axios.defaults.baseURL = "http://localhost:5000/h2-app/us-central1/api";
 
 const token = localStorage.FBIdToken;
 
@@ -32,7 +33,7 @@ if (token) {
     const decodedToken = jwtDecode(token);
     if(decodedToken.exp * 1000 < Date.now()) {
         store.dispatch(logoutUser());
-        window.location.href = '/login';
+        window.location.href = '/';
     } else {
         axios.defaults.headers.common["Authentication"] = token;
         store.dispatch(getUserData());
@@ -51,7 +52,7 @@ function App() {
                           <AuthRoute exact path="/login" component={login}/>
                           <AuthRoute exact path="/signup" component={signup}/>
                           <Route exact path="/users/:handle" component={user}/>
-                          <Route exact path="/users/:handle/scream/:screamId" component={user}/>
+                          <Route exact path="/users/:handle/announcement/:announcementId" component={user}/>
                       </Switch>
                   </div>
               </Router>

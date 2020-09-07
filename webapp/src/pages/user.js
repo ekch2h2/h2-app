@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
 import { getUserData } from "../redux/actions/dataActions";
 import axios from "axios";
-import Scream from "../components/announcement/Announcement";
+import Announcement from "../components/announcement/Announcement";
 import AnnouncementSkeleton from "../util/AnnouncementSkeleton";
 import ProfileSkeleton from "../util/ProfileSkeleton";
 import Profile from "../components/profile/Profile";
@@ -13,15 +13,15 @@ import Profile from "../components/profile/Profile";
 class user extends Component {
     state = {
         profile: {},
-        screamIdParam: null
+        announcementIdParam: null
     };
 
     componentDidMount() {
         const handle = this.props.match.params.handle;
-        const screamId = this.props.match.params.screamId;
+        const announcementId = this.props.match.params.announcementId;
 
-        if (screamId) {
-            this.setState({ screamIdParam: screamId})
+        if (announcementId) {
+            this.setState({ announcementIdParam: announcementId})
         }
         this.props.getUserData(handle);
         axios.get(`/user/${handle}`)
@@ -34,21 +34,21 @@ class user extends Component {
     }
 
     render() {
-        const { screams, loading } = this.props.data;
-        const { screamIdParam } = this.state;
+        const { announcements, loading } = this.props.data;
+        const { announcementIdParam } = this.state;
 
-        const screamsMarkup = loading ? (
+        const announcementsMarkup = loading ? (
             <AnnouncementSkeleton />
-            ) : screams === null ? (
-                <p>No screams from this user</p>
-            ) : !screamIdParam ? (
-                screams.map(scream => <Scream key={scream.screamId} scream={scream} />)
+            ) : announcements === null ? (
+                <p>No announcements from this user</p>
+            ) : !announcementIdParam ? (
+                announcements.map(ann => <Announcement key={ann.announcementId} announcement={ann} />)
             ) : (
-                screams.map(scream => {
-                    if (scream.screamId !== screamIdParam) {
-                        return <Scream key={scream.screamId} scream={scream} />;
+                announcements.map(ann => {
+                    if (ann.announcementId !== announcementIdParam) {
+                        return <Announcement key={ann.announcementId} announcement={ann} />;
                     } else {
-                        return <Scream key={scream.screamId} scream={scream} openDialog={true} />;
+                        return <Announcement key={ann.announcementId} announcement={ann} openDialog={true} />;
                     }
 
                 })
@@ -56,7 +56,7 @@ class user extends Component {
         return (
             <Grid container spacing={10}>
                 <Grid item sm={8} xs={12}>
-                    {screamsMarkup}
+                    {announcementsMarkup}
                 </Grid>
                 <Grid item sm={4} xs={12}>
                     {!this.state.profile ? (

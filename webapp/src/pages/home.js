@@ -1,29 +1,29 @@
 import React, { Component } from 'react'
-import Scream from '../components/announcement/Announcement';
+import Announcement from '../components/announcement/Announcement';
 import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
-import { getScreams } from "../redux/actions/dataActions";
+import { getAnnouncements } from "../redux/actions/dataActions";
 import AnnouncementSkeleton from "../util/AnnouncementSkeleton";
 
 class home extends Component {
     componentDidMount() {
-        this.props.getScreams()
+        this.props.getAnnouncements()
     }
 
     render() {
-        const { screams, loading } = this.props.data;
+        const { announcements, loading } = this.props.data;
 
         return !loading ? (
-            screams
-                .filter(scream => !scream.isArchived)
-                .map(scream => <Scream key={scream.screamId} scream={scream}/>)
+            announcements
+                .filter(ann => !ann.isArchived)
+                .map(ann => <Announcement key={ann.announcementId} announcement={ann}/>)
         ) : <AnnouncementSkeleton />;
     }
 }
 
 home.propTypes = {
-    getScreams: PropTypes.func.isRequired,
+    getAnnouncements: PropTypes.func.isRequired,
     data: PropTypes.object.isRequired
 };
 
@@ -31,4 +31,4 @@ const mapStateToProps = (state) => ({
     data: state.data
 });
 
-export default connect(mapStateToProps, { getScreams })(home)
+export default connect(mapStateToProps, { getAnnouncements })(home)

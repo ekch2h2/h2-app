@@ -1,8 +1,8 @@
 let db = {
-    screams: [
+    announcements: [
         {
             userHandle: "user",
-            body: "scream body",
+            body: "announcement body",
             createdAt: "2020-04-20T00:20:11.059Z",
             likeCount: 5,
             commentCount: 2
@@ -13,7 +13,7 @@ let db = {
             recipient: "user",
             sender: "john",
             read: "true | false",
-            screamId: "lsjdflaefioawne",
+            announcementId: "lsjdflaefioawne",
             type: "like | comment",
             createAt: "2020-07-03T10:00:00.000Z"
         }
@@ -33,7 +33,7 @@ const userDetail = {
         website: "http://user.com"
     },
     likes: [
-        {userHandle: "user", screamId: 'rplKG4oQuNdRNhtLbJaB'},
-        {userHandle: "user", screamId: 'pqsPu87FKn3acqFvRU2k'}
+        {userHandle: "user", announcementId: 'rplKG4oQuNdRNhtLbJaB'},
+        {userHandle: "user", announcementId: 'pqsPu87FKn3acqFvRU2k'}
     ]
 };

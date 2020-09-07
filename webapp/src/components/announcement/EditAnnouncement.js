@@ -13,9 +13,11 @@ import CloseIcon from "@material-ui/icons/Close";
 import EditIcon from "@material-ui/icons/Edit";
 
 import MyButton from "../../util/MyButton";
-import { getScream, updateAnnouncement, clearErrors } from "../../redux/actions/dataActions";
 import TextField from "@material-ui/core/TextField/TextField";
 import Button from "@material-ui/core/Button";
+
+// Redux
+import { getAnnouncement, updateAnnouncement, clearErrors } from "../../redux/actions/dataActions";
 
 const styles = (theme) => ({
     ...theme.rootStyles,
@@ -55,8 +57,8 @@ class EditAnnouncement extends Component {
                 errors: nextProps.UI.errors
             })
         }
-        if (this.props.scream.body) {
-            this.setState({ body: this.props.scream.body })
+        if (this.props.announcement.body) {
+            this.setState({ body: this.props.announcement.body })
         }
     }
 
@@ -68,8 +70,8 @@ class EditAnnouncement extends Component {
 
     handleOpen = () => {
         let oldPath = window.location.pathname;
-        const { userHandle, screamId } = this.props;
-        const newPath = `/users/${userHandle}/scream/${screamId}`;
+        const { userHandle, announcementId } = this.props;
+        const newPath = `/users/${userHandle}/announcement/${announcementId}`;
 
         if (oldPath === newPath) {
             oldPath = `/users/${userHandle}`;
@@ -77,7 +79,7 @@ class EditAnnouncement extends Component {
         window.history.pushState(null, null, newPath);
 
         this.setState({ open: true, oldPath, newPath });
-        this.props.getScream(this.props.screamId);
+        this.props.getAnnouncement(this.props.announcementId);
     };
 
     handleClose = () => {
@@ -88,7 +90,7 @@ class EditAnnouncement extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.updateAnnouncement(this.props.screamId, this.state.body);
+        this.props.updateAnnouncement(this.props.announcementId, this.state.body);
     };
 
     handleChange = (event) => {
@@ -163,17 +165,17 @@ class EditAnnouncement extends Component {
 }
 
 EditAnnouncement.propTypes = {
-    getScream: PropTypes.func.isRequired,
+    getAnnouncement: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired,
-    screamId: PropTypes.string.isRequired,
+    announcementId: PropTypes.string.isRequired,
     userHandle: PropTypes.string.isRequired,
-    scream: PropTypes.object.isRequired,
+    announcement: PropTypes.object.isRequired,
     UI: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-    scream: state.data.scream,
+    announcement: state.data.announcement,
     UI: state.UI
 });
 
-export default connect(mapStateToProps, { getScream, updateAnnouncement, clearErrors })(withStyles(styles)(EditAnnouncement));
+export default connect(mapStateToProps, { getAnnouncement, updateAnnouncement, clearErrors })(withStyles(styles)(EditAnnouncement));
