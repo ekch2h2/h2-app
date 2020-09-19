@@ -1,27 +1,29 @@
 import React, { Component } from 'react'
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
-
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
-
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-
-import { connect } from "react-redux";
+import clsx from 'clsx';
+import EditAnnouncement from "./EditAnnouncement";
+import ReactMarkdown from 'react-markdown';
 import MyButton from "../../util/MyButton";
-import ChatIcon from "@material-ui/icons/Chat";
 import DeleteAnnouncement from "./DeleteAnnouncement";
 import AnnouncementDialog from "./AnnouncementDialog";
-import CardHeader from "@material-ui/core/CardHeader";
+// Redux
+import { connect } from "react-redux";
+// MUI
 import Avatar from "@material-ui/core/Avatar";
-import ReactMarkdown from 'react-markdown';
-import LikeButton from "./LikeButton";
-import EditAnnouncement from "./EditAnnouncement";
+import Card from '@material-ui/core/Card';
+import CardHeader from "@material-ui/core/CardHeader";
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Collapse from '@material-ui/core/Collapse';
+import Typography from "@material-ui/core/Typography";
+// Icons
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-const styles = {
+const styles = (theme) => ({
     card: {
         marginBottom: 20,
         position: "relative"
@@ -32,10 +34,34 @@ const styles = {
     content: {
         padding: 25,
         objectFit: "cover"
+    },
+    actions: {
+        display: "block"
+    },
+    expand: {
+        float: "right",
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+            duration: theme.transitions.duration.shortest,
+        }),
+    },
+    expandOpen: {
+        transform: 'rotate(180deg)'
     }
-};
+});
 
 class Announcement extends Component {
+    state = {
+        expanded: false
+    };
+
+    toggleExpandContent = () => {
+        this.setState(prevState => ({
+            expanded: !prevState.expanded
+        }))
+    };
+
     render() {
         dayjs.extend(relativeTime);
 
@@ -46,7 +72,6 @@ class Announcement extends Component {
                 createdAt,
                 userImage,
                 userHandle,
-                likeCount,
                 commentCount,
                 announcementId
             },
@@ -56,6 +81,9 @@ class Announcement extends Component {
             },
             openDialog
         } = this.props;
+
+        const expanded = this.state.expanded;
+
         const deleteButton = authenticated && userHandle === handle ? (
             <DeleteAnnouncement announcementId={announcementId}/>
         ) : null;
@@ -94,20 +122,30 @@ class Announcement extends Component {
                     subheader={dayjs(createdAt).fromNow()}
                 />
 
-                <CardContent className={classes.content}>
-                    <ReactMarkdown source={body} />
-                    <LikeButton announcementId={announcementId}/>
-                    <span>{likeCount} Likes</span>
-                    <MyButton tip="comments">
-                        <ChatIcon color="primary"/>
-                    </MyButton>
-                    <span>{commentCount} comments</span>
+                <Collapse
+                    in={expanded}
+                    timeout="auto"
+                    collapsedHeight="150px"
+                >
+                    <CardContent className={classes.content}>
+                        <ReactMarkdown source={body} />
+                    </CardContent>
+                </Collapse>
+                <CardActions className={classes.actions}>
                     <AnnouncementDialog
                         announcementId={announcementId}
                         userHandle={userHandle}
                         openDialog={openDialog}
                     />
-                </CardContent>
+                    <span>{commentCount} comments</span>
+                    <MyButton tip="expand announcement"
+                              btnClassName={clsx(classes.expand, {
+                                  [classes.expandOpen]: expanded,
+                              })}>
+                        <ExpandMoreIcon color="primary" onClick={this.toggleExpandContent}/>
+                    </MyButton>
+
+                </CardActions>
             </Card>
         )
     }

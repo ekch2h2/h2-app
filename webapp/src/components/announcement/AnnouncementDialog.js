@@ -14,11 +14,9 @@ import Typography from "@material-ui/core/Typography";
 
 // Icon
 import CloseIcon from "@material-ui/icons/Close";
-import UnfoldMore from "@material-ui/icons/UnfoldMore";
 
 import MyButton from "../../util/MyButton";
 import { getAnnouncement, clearErrors } from "../../redux/actions/dataActions";
-import LikeButton from "./LikeButton";
 import ChatIcon from "@material-ui/icons/Chat";
 import Comments from "./Comments";
 import ReactMarkdown from "react-markdown";
@@ -38,9 +36,6 @@ const styles = (theme) => ({
     closeButton: {
         position: "absolute",
         left: "90%"
-    },
-    expandButton: {
-        float: "right"
     },
     spinnerDiv: {
         textAlign: "center",
@@ -95,7 +90,6 @@ class AnnouncementDialog extends Component {
                 userHandle,
                 announcementId,
                 commentCount,
-                likeCount,
                 comments
             },
             UI: { loading }
@@ -131,9 +125,6 @@ class AnnouncementDialog extends Component {
                 </div>
 
                 <Container>
-                    <LikeButton announcementId={announcementId}/>
-                    <span>{likeCount} Likes</span>
-
                     <MyButton tip="comments">
                         <ChatIcon color="primary"/>
                     </MyButton>
@@ -146,14 +137,18 @@ class AnnouncementDialog extends Component {
         );
         return (
             <Fragment>
-                <MyButton onClick={this.handleOpen} tip="Expand announcement" tipClassName={classes.expandButton}>
-                    <UnfoldMore color="primary" />
+                <MyButton
+                    onClick={this.handleOpen}
+                    tip="Expand announcement"
+                    btnClassName={classes.expandButton}
+                >
+                    <ChatIcon color="primary" />
                 </MyButton>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
                     fullWidth
-                    maxWidth="sm">
+                    maxWidth="md">
                     <MyButton tip="Close" onClick={this.handleClose} tipClassName={classes.closeButton}>
                         <CloseIcon/>
                     </MyButton>

@@ -92,7 +92,7 @@ class PostAnnouncement extends Component {
                     open={this.state.open}
                     onClose={this.handleClose}
                     fullWidth
-                    maxWidth="sm">
+                    maxWidth="md">
                     <MyButton tip="Close" onClick={this.handleClose} tipClassName={classes.closeButton}>
                         <CloseIcon/>
                     </MyButton>
@@ -106,13 +106,13 @@ class PostAnnouncement extends Component {
                                 type="text"
                                 label="Content"
                                 multiline
-                                rows="6"
                                 placeholder="Announcement content with markdown"
                                 error={!!errors.body}
                                 helperText={errors.body}
                                 className={classes.textField}
                                 onChange={this.handleChange}
                                 fullWidth
+                                rowsMax="12"
                             />
                             <Button type="submit" variant="contained"
                                     color="primary"

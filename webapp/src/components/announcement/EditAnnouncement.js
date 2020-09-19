@@ -151,7 +151,7 @@ class EditAnnouncement extends Component {
                     open={this.state.open}
                     onClose={this.handleClose}
                     fullWidth
-                    maxWidth="sm">
+                    maxWidth="md">
                     <MyButton tip="Close" onClick={this.handleClose} tipClassName={classes.closeButton}>
                         <CloseIcon/>
                     </MyButton>
