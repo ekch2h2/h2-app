@@ -48,6 +48,11 @@ const styles = (theme) => ({
     },
     expandOpen: {
         transform: 'rotate(180deg)'
+    },
+    markdownContainer: {
+        h2: {
+            fontSize: "1em"
+        }
     }
 });
 
@@ -125,10 +130,13 @@ class Announcement extends Component {
                 <Collapse
                     in={expanded}
                     timeout="auto"
-                    collapsedHeight="150px"
+                    collapsedHeight="18rem"
                 >
                     <CardContent className={classes.content}>
-                        <ReactMarkdown source={body} />
+                        <Typography id={"content-" + announcementId}>
+                            <ReactMarkdown source={body}
+                                           className={classes.markdownContainer}/>
+                        </Typography>
                     </CardContent>
                 </Collapse>
                 <CardActions className={classes.actions}>
