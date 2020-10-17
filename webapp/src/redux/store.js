@@ -16,8 +16,15 @@ const reducers = combineReducers({
     UI: uiReducer
 });
 
+const isReduxDevToolsSupported = () => {
+    const ua = window.navigator.userAgent;
+    return ua.includes('Chrome')
+        && ! ua.includes('Windows')
+        && ! ua.includes('Android')
+};
+
 const store = createStore(reducers, initialState,
-    window.navigator.userAgent.includes('Chrome') ? (
+    isReduxDevToolsSupported() ? (
         compose(
             applyMiddleware(...middleware),
             window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
