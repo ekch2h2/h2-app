@@ -108,6 +108,19 @@ export const deleteAnnouncement = (announcementId) => dispatch => {
         .catch(err => console.log(err));
 };
 
+export const archiveAnnouncement = (announcementId) => dispatch => {
+    axios.post(`/announcement/${announcementId}`, { isArchived: true })
+        .then(() => {
+            dispatch(getAnnouncements());
+        })
+        .catch(err => {
+            dispatch({
+                type: SET_ERRORS,
+                payload: err.response.data
+            })
+        });
+};
+
 export const submitComment = (announcementId, commentData) => dispatch => {
     axios.post(`/announcement/${announcementId}/comment`, commentData)
         .then(res => {

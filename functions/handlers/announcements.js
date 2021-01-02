@@ -1,5 +1,9 @@
-const { validateAnnouncement, validateAnnouncementBody } = require("../util/validators");
+const {
+    validateAnnouncement,
+    validateUpdateAnnouncement
+} = require("../util/validators");
 const { db, admin } = require("../util/admin");
+const { logErrorReturn500 } = require("../util/common");
 
 exports.getAllAnnouncements = (req, res) => {
     db.collection('announcements')
@@ -15,7 +19,7 @@ exports.getAllAnnouncements = (req, res) => {
             });
             return res.json(announcements);
         })
-        .catch((err) => console.error(err));
+        .catch(logErrorReturn500(res));
 };
 
 exports.postOneAnnouncement = (req, res) => {
@@ -41,10 +45,7 @@ exports.postOneAnnouncement = (req, res) => {
 
             return res.json(resAnnouncement)
         })
-        .catch(err => {
-            console.error(err);
-            return res.status(500).json({error: "Something went wrong"});
-        })
+        .catch(logErrorReturn500(res))
 };
 
 exports.getAnnouncement = (req, res) => {
@@ -68,29 +69,25 @@ exports.getAnnouncement = (req, res) => {
             });
             return res.json(announcementData);
         })
-        .catch( err => {
-            console.log(err);
-            return res.status(500).json({error: err.code})
-        });
+        .catch( logErrorReturn500(res));
 };
 
 exports.updateAnnouncement = (req, res) => {
     const announcementId = req.params.announcementId;
-    const body = req.body.body;
-    const { errors, valid } = validateAnnouncementBody(body);
+    const { errors, valid } = validateUpdateAnnouncement(req.body);
 
     if (!valid) {
         return res.status(400).json(errors)
     }
 
-    db.doc(`/announcements/${announcementId}`).update("body", body)
+    db.doc(`/announcements/${announcementId}`)
+        .update({
+            ...req.body
+        })
         .then(() => {
             return res.json({ message: "Announcement updated successfully"})
         })
-        .catch(err => {
-            console.log(err);
-            return res.status(500).json({error: err.code})
-        });
+        .catch(logErrorReturn500(res));
 };
 
 exports.commentOnAnnouncement = (req, res) => {
@@ -120,10 +117,7 @@ exports.commentOnAnnouncement = (req, res) => {
         .then( () => {
             return res.json(newComment)
         })
-        .catch(err => {
-            console.log(err);
-            return res.status(500).json({ error: err.code });
-        })
+        .catch(logErrorReturn500(res))
 };
 
 exports.likeAnnouncement = (req, res) => {
@@ -162,10 +156,7 @@ exports.likeAnnouncement = (req, res) => {
                 return res.status(400).json({error: "Announcement already liked"})
             }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({error: err.code})
-        })
+        .catch(logErrorReturn500(res))
 
 };
 
@@ -201,10 +192,7 @@ exports.unlikeAnnouncement = (req, res) => {
                     })
             }
         })
-        .catch(err => {
-            console.log(err);
-            return res.status(500).json({error: err.code})
-        })
+        .catch(logErrorReturn500(res))
 };
 
 // Delete a announcement
@@ -226,8 +214,5 @@ exports.deleteAnnouncement = (req, res) => {
         .then(() => {
             return res.json({ message: "Announcement deleted successfully"})
         })
-        .catch(err => {
-            console.log(err);
-            return res.status(500).json({error: err.code})
-        });
+        .catch(logErrorReturn500(res));
 };

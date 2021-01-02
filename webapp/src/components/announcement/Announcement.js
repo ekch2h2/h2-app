@@ -22,6 +22,7 @@ import Collapse from '@material-ui/core/Collapse';
 import Typography from "@material-ui/core/Typography";
 // Icons
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ArchiveAnnouncement from "./ArchiveAnnouncement";
 
 const styles = (theme) => ({
     card: {
@@ -98,9 +99,13 @@ class Announcement extends Component {
                 userHandle={userHandle}
             />
         ) : null;
+        const archiveBotton = authenticated && userHandle === handle ? (
+            <ArchiveAnnouncement announcementId={announcementId} userHandle={userHandle} />
+        ) : null;
         const actionsMarkup = (
             <div>
                 {editButton}
+                {archiveBotton}
                 {deleteButton}
             </div>
         );

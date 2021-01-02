@@ -93,10 +93,10 @@ exports.validateAnnouncement = data => {
     }
 };
 
-exports.validateAnnouncementBody = body => {
+exports.validateUpdateAnnouncement = data => {
     let errors = {};
 
-    if (isEmpty(body)) {
+    if (data.body !== undefined && isEmpty(data.body)) {
         errors.body = "Announcement body must not be empty"
     }
 
