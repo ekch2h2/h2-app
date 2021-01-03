@@ -57,6 +57,25 @@ const styles = (theme) => ({
     }
 });
 
+function isListLine(s) {
+    return s.match(/^[0-9]+\. /) || s.match(/^\* /)
+}
+
+function markdownTextPreProcess(s) {
+    let bodyFinal = "";
+    let prevLine = "";
+    s.split("\n").forEach(rawLine => {
+        const line = rawLine.trim();
+        if (!isListLine(prevLine) && isListLine(line)) {
+            bodyFinal += "\n"
+        }
+        bodyFinal += line.replace("。", " 。 ") + "\n";
+        prevLine = line;
+    });
+
+    return bodyFinal;
+}
+
 class Announcement extends Component {
     state = {
         expanded: false
@@ -89,6 +108,7 @@ class Announcement extends Component {
         } = this.props;
 
         const expanded = this.state.expanded;
+        let bodyFinal = markdownTextPreProcess(body);
 
         const deleteButton = authenticated && userHandle === handle ? (
             <DeleteAnnouncement announcementId={announcementId}/>
@@ -139,7 +159,7 @@ class Announcement extends Component {
                 >
                     <CardContent className={classes.content}>
                         <Typography id={"content-" + announcementId}>
-                            <ReactMarkdown source={body}
+                            <ReactMarkdown source={bodyFinal}
                                            className={classes.markdownContainer}/>
                         </Typography>
                     </CardContent>
