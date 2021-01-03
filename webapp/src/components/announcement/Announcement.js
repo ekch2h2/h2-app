@@ -9,7 +9,6 @@ import EditAnnouncement from "./EditAnnouncement";
 import ReactMarkdown from 'react-markdown';
 import MyButton from "../../util/MyButton";
 import DeleteAnnouncement from "./DeleteAnnouncement";
-import AnnouncementDialog from "./AnnouncementDialog";
 // Redux
 import { connect } from "react-redux";
 // MUI
@@ -97,14 +96,12 @@ class Announcement extends Component {
                 createdAt,
                 userImage,
                 userHandle,
-                commentCount,
                 announcementId
             },
             user: {
                 authenticated,
                 credentials: { handle }
-            },
-            openDialog
+            }
         } = this.props;
 
         const expanded = this.state.expanded;
@@ -165,12 +162,6 @@ class Announcement extends Component {
                     </CardContent>
                 </Collapse>
                 <CardActions className={classes.actions}>
-                    <AnnouncementDialog
-                        announcementId={announcementId}
-                        userHandle={userHandle}
-                        openDialog={openDialog}
-                    />
-                    <span>{commentCount} comments</span>
                     <MyButton tip="expand announcement"
                               btnClassName={clsx(classes.expand, {
                                   [classes.expandOpen]: expanded,

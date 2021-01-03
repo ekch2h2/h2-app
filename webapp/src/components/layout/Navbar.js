@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 // MUI stuff
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import PropTyes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -12,6 +11,7 @@ import MyButton from "../../util/MyButton";
 import HomeIcon from "@material-ui/icons/Home";
 import PostAnnouncement from "../announcement/PostAnnouncement";
 import Notifications from "./Notifications";
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const styles = {};
 
@@ -35,18 +35,21 @@ class Navbar extends Component {
                             </Link>
                             <Notifications/>
                         </Fragment>
-                    ) : <Fragment>
-                        <Button color="inherit" component={Link} to="/login">
-                            Login
-                        </Button>
-                        <Button color="inherit" component={Link} to="/">
-                            Home
-                        </Button>
-                        <Button color="inherit" component={Link} to="/signup">
-                            Signup
-                        </Button>
-                    </Fragment>
-                    }
+                    ) : (
+                        <Fragment>
+                            <Link to="/login">
+                                <MyButton tip="Account login">
+                                    <AccountCircleIcon />
+                                </MyButton>
+
+                            </Link>
+                            <Link to="/">
+                                <MyButton tip="Home">
+                                    <HomeIcon/>
+                                </MyButton>
+                            </Link>
+                        </Fragment>
+                    )}
                 </Toolbar>
             </AppBar>
         )

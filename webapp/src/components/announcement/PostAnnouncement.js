@@ -112,6 +112,7 @@ class PostAnnouncement extends Component {
                                 className={classes.textField}
                                 onChange={this.handleChange}
                                 fullWidth
+                                rows="6"
                                 rowsMax="12"
                             />
                             <Button type="submit" variant="contained"
