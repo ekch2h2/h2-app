@@ -6,7 +6,6 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import clsx from 'clsx';
 import EditAnnouncement from "./EditAnnouncement";
-import ReactMarkdown from 'react-markdown';
 import MyButton from "../../util/MyButton";
 import DeleteAnnouncement from "./DeleteAnnouncement";
 // Redux
@@ -16,12 +15,14 @@ import Avatar from "@material-ui/core/Avatar";
 import Card from '@material-ui/core/Card';
 import CardHeader from "@material-ui/core/CardHeader";
 import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Collapse from '@material-ui/core/Collapse';
 import Typography from "@material-ui/core/Typography";
 // Icons
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ArchiveAnnouncement from "./ArchiveAnnouncement";
+import ReactMarkdown from "react-markdown";
+import {markdownTextPreProcess} from "../../util/markdown_utils";
+import Collapse from "@material-ui/core/Collapse/Collapse";
+import CardContent from "@material-ui/core/CardContent";
 
 const styles = (theme) => ({
     card: {
@@ -56,28 +57,14 @@ const styles = (theme) => ({
     }
 });
 
-function isListLine(s) {
-    return s.match(/^[0-9]+\. /) || s.match(/^\* /)
-}
-
-function markdownTextPreProcess(s) {
-    let bodyFinal = "";
-    let prevLine = "";
-    s.split("\n").forEach(rawLine => {
-        const line = rawLine.trim();
-        if (!isListLine(prevLine) && isListLine(line)) {
-            bodyFinal += "\n"
-        }
-        bodyFinal += line.replace("。", " 。 ") + "\n";
-        prevLine = line;
-    });
-
-    return bodyFinal;
-}
+const collapsedHeightForWideScreen = 150;
+const collapsedHeightForNarrow = 350;
+const wideNarrowThresh = 500;
 
 class Announcement extends Component {
     state = {
-        expanded: false
+        expanded: false,
+        dimensions: null
     };
 
     toggleExpandContent = () => {
@@ -85,6 +72,30 @@ class Announcement extends Component {
             expanded: !prevState.expanded
         }))
     };
+
+    componentDidMount() {
+        this.setState({
+            dimensions: {
+                width: this.container.offsetWidth,
+                height: this.container.offsetHeight,
+            },
+        });
+    }
+
+    showedAllContent() {
+        const { dimensions } = this.state;
+        return dimensions && dimensions.height >= this.collapsedHeight();
+    }
+
+    collapsedHeight() {
+        const { dimensions } = this.state;
+
+        if (dimensions) {
+            return dimensions.width > wideNarrowThresh ?
+                collapsedHeightForWideScreen : collapsedHeightForNarrow;
+        }
+        return collapsedHeightForWideScreen;
+    }
 
     render() {
         dayjs.extend(relativeTime);
@@ -104,8 +115,7 @@ class Announcement extends Component {
             }
         } = this.props;
 
-        const expanded = this.state.expanded;
-        let bodyFinal = markdownTextPreProcess(body);
+        const { expanded } = this.state;
 
         const deleteButton = authenticated && userHandle === handle ? (
             <DeleteAnnouncement announcementId={announcementId}/>
@@ -133,6 +143,7 @@ class Announcement extends Component {
         >
             {userHandle}
         </Typography>);
+
         return (
             <Card className={classes.card}>
                 <CardHeader
@@ -152,22 +163,32 @@ class Announcement extends Component {
                 <Collapse
                     in={expanded}
                     timeout="auto"
-                    collapsedHeight="18rem"
+                    collapsedHeight={`${this.collapsedHeight()}px`}
                 >
                     <CardContent className={classes.content}>
                         <Typography id={"content-" + announcementId}>
-                            <ReactMarkdown source={bodyFinal}
-                                           className={classes.markdownContainer}/>
+                            <div className="ContentOnly" ref={el => (this.container = el)}>
+                                <ReactMarkdown
+                                    source={markdownTextPreProcess(body)}
+                                    className={classes.markdownContainer}
+                                />
+                            </div>
                         </Typography>
                     </CardContent>
                 </Collapse>
+
                 <CardActions className={classes.actions}>
-                    <MyButton tip="expand announcement"
-                              btnClassName={clsx(classes.expand, {
-                                  [classes.expandOpen]: expanded,
-                              })}>
-                        <ExpandMoreIcon color="primary" onClick={this.toggleExpandContent}/>
-                    </MyButton>
+                    {this.showedAllContent() ? (
+                        <MyButton tip="expand announcement"
+                                  btnClassName={clsx(classes.expand, {
+                                      [classes.expandOpen]: expanded,
+                                  })}>
+                            <ExpandMoreIcon color="primary" onClick={this.toggleExpandContent}/>
+                        </MyButton>
+                    ) : (
+                        <div/>
+                    )}
+
 
                 </CardActions>
             </Card>
