@@ -20,18 +20,26 @@ import home from './pages/home';
 import login from './pages/login';
 import signup from './pages/signup';
 import user from './pages/user';
+// This import loads the firebase namespace along with all its type information.
+import firebase from "firebase/app";
+import "firebase/auth";
 
 const theme = createMuiTheme(themeFile);
+
+// // Initialize Firebase
+firebase.initializeApp({apiKey: "AIzaSyCCx9TDJtVzEaPym1OyU5KSuWgwslGDzEY"});
 
 axios.defaults.baseURL = "https://us-central1-h2-app.cloudfunctions.net/api";
 // axios.defaults.baseURL = "http://localhost:5000/h2-app/us-central1/api";
 
-const token = localStorage.FBIdToken;
-
-if (token) {
-    axios.defaults.headers.common["Authentication"] = token;
-    store.dispatch(getUserData());
-}
+firebase.auth().onAuthStateChanged(usr => {
+    if (usr) {
+        usr.getIdToken(true).then(token => {
+            axios.defaults.headers.common["Authentication"] = `Bearer ${token}`;
+            store.dispatch(getUserData());
+        })
+    }
+});
 
 function App() {
   return (

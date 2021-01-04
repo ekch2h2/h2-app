@@ -1,20 +1,25 @@
 import {
-    SET_USER,
-    SET_ERRORS,
     CLEAR_ERRORS,
     LOADING_UI,
+    LOADING_USER,
+    MARK_NOTIFCATIONS_READ,
+    SET_ERRORS,
     SET_UNAUTHENTICATED,
-    LOADING_USER, MARK_NOTIFCATIONS_READ
+    SET_USER
 } from "../types";
 import axios from "axios";
-
+import firebase from "firebase/app";
 
 export const loginUser = (userData, history) => (dispatch) => {
     dispatch({ type: LOADING_UI });
-    axios.post('/login', userData)
+    firebase.auth().signInWithEmailAndPassword(userData.email, userData.password)
         .then(res => {
-            const data = res.data;
-            setAuthorizationHeader(data.token);
+            const data = res.user;
+            firebase.auth().updateCurrentUser(res.user);
+            return data.getIdToken(true)
+        })
+        .then(idToken => {
+            setAuthorizationHeader(idToken);
             dispatch(getUserData());
             dispatch({ type: CLEAR_ERRORS });
             history.push('/');
@@ -25,7 +30,7 @@ export const loginUser = (userData, history) => (dispatch) => {
                 type: SET_ERRORS,
                 payload: err.response.data
             })
-        })
+        });
 };
 
 export const getUserData = () => (dispatch) => {
@@ -66,15 +71,13 @@ export const signupUser = (newUserData, history) => (dispatch) => {
 };
 
 export const logoutUser = () => (dispatch) => {
-    localStorage.removeItem("FBIdToken");
-    delete axios.defaults.headers.common["Authentication"];
-    dispatch({ type: SET_UNAUTHENTICATED })
+    firebase.auth().signOut().then(() => {
+        dispatch({ type: SET_UNAUTHENTICATED })
+    })
 };
 
 const setAuthorizationHeader = (token) => {
-    const FBIdToken = `Bearer ${token}`;
-    localStorage.setItem("FBIdToken", FBIdToken);
-    axios.defaults.headers.common["Authentication"] = FBIdToken;
+    axios.defaults.headers.common["Authentication"] = `Bearer ${token}`;
 };
 
 export const uploadImage = (formData) => (dispatch) => {
