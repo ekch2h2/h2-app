@@ -23,23 +23,24 @@ import user from './pages/user';
 // This import loads the firebase namespace along with all its type information.
 import firebase from "firebase/app";
 import "firebase/auth";
+import { setAuthorizationHeader } from "./util/auth";
 
 const theme = createMuiTheme(themeFile);
 
 // // Initialize Firebase
 firebase.initializeApp({apiKey: "AIzaSyCCx9TDJtVzEaPym1OyU5KSuWgwslGDzEY"});
 
-axios.defaults.baseURL = "https://us-central1-h2-app.cloudfunctions.net/api";
-// axios.defaults.baseURL = "http://localhost:5000/h2-app/us-central1/api";
-
 firebase.auth().onAuthStateChanged(usr => {
     if (usr) {
-        usr.getIdToken(true).then(token => {
-            axios.defaults.headers.common["Authentication"] = `Bearer ${token}`;
+        usr.getIdToken().then(token => {
+            setAuthorizationHeader(token);
             store.dispatch(getUserData());
         })
     }
 });
+
+axios.defaults.baseURL = "https://us-central1-h2-app.cloudfunctions.net/api";
+// axios.defaults.baseURL = "http://localhost:5000/h2-app/us-central1/api";
 
 function App() {
   return (

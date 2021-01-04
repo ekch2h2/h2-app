@@ -9,15 +9,12 @@ import {
 } from "../types";
 import axios from "axios";
 import firebase from "firebase/app";
+import { setAuthorizationHeader } from "../../util/auth";
 
 export const loginUser = (userData, history) => (dispatch) => {
     dispatch({ type: LOADING_UI });
     firebase.auth().signInWithEmailAndPassword(userData.email, userData.password)
-        .then(res => {
-            const data = res.user;
-            firebase.auth().updateCurrentUser(res.user);
-            return data.getIdToken(true)
-        })
+        .then(res => res.user.getIdToken())
         .then(idToken => {
             setAuthorizationHeader(idToken);
             dispatch(getUserData());
@@ -74,10 +71,6 @@ export const logoutUser = () => (dispatch) => {
     firebase.auth().signOut().then(() => {
         dispatch({ type: SET_UNAUTHENTICATED })
     })
-};
-
-const setAuthorizationHeader = (token) => {
-    axios.defaults.headers.common["Authentication"] = `Bearer ${token}`;
 };
 
 export const uploadImage = (formData) => (dispatch) => {
