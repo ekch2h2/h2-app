@@ -82,7 +82,7 @@ class Announcement extends Component {
         });
     }
 
-    showedAllContent() {
+    shouldShowMore() {
         const { dimensions } = this.state;
         return dimensions && dimensions.height >= this.collapsedHeight();
     }
@@ -160,12 +160,13 @@ class Announcement extends Component {
                     subheader={dayjs(createdAt).fromNow()}
                 />
 
-                <Collapse
-                    in={expanded}
-                    timeout="auto"
-                    collapsedHeight={`${this.collapsedHeight()}px`}
-                >
+
                     <CardContent className={classes.content}>
+                        <Collapse
+                            in={expanded}
+                            timeout="auto"
+                            collapsedHeight={`${this.collapsedHeight()}px`}
+                        >
                         <Typography id={"content-" + announcementId}>
                             <div className="ContentOnly" ref={el => (this.container = el)}>
                                 <ReactMarkdown
@@ -174,11 +175,12 @@ class Announcement extends Component {
                                 />
                             </div>
                         </Typography>
+                        </Collapse>
+
                     </CardContent>
-                </Collapse>
 
                 <CardActions className={classes.actions}>
-                    {this.showedAllContent() ? (
+                    {this.shouldShowMore() ? (
                         <MyButton tip="expand announcement"
                                   btnClassName={clsx(classes.expand, {
                                       [classes.expandOpen]: expanded,
