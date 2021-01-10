@@ -73,13 +73,15 @@ class Announcement extends Component {
         }))
     };
 
-    componentDidMount() {
-        this.setState({
-            dimensions: {
-                width: this.container.offsetWidth,
-                height: this.container.offsetHeight,
-            },
-        });
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.dimensions == null || prevState.dimensions.height !== this.container.offsetHeight) {
+            this.setState({
+                dimensions: {
+                    width: this.container.offsetWidth,
+                    height: this.container.offsetHeight,
+                },
+            });
+        }
     }
 
     shouldShowMore() {
@@ -89,7 +91,6 @@ class Announcement extends Component {
 
     collapsedHeight() {
         const { dimensions } = this.state;
-
         if (dimensions) {
             return dimensions.width > wideNarrowThresh ?
                 collapsedHeightForWideScreen : collapsedHeightForNarrow;
@@ -168,7 +169,7 @@ class Announcement extends Component {
                             collapsedHeight={`${this.collapsedHeight()}px`}
                         >
                         <Typography id={"content-" + announcementId}>
-                            <div className="ContentOnly" ref={el => (this.container = el)}>
+                            <div className={"ContentOnly-" + announcementId} ref={el => (this.container = el)}>
                                 <ReactMarkdown
                                     source={markdownTextPreProcess(body)}
                                     className={classes.markdownContainer}
