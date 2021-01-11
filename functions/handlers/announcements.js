@@ -1,3 +1,4 @@
+const { getImageUrl } = require("../util/common");
 const {
     validateAnnouncement,
     validateUpdateAnnouncement
@@ -215,4 +216,50 @@ exports.deleteAnnouncement = (req, res) => {
             return res.json({ message: "Announcement deleted successfully"})
         })
         .catch(logErrorReturn500(res));
+};
+
+// Upload image for posting announcement
+exports.uploadImageForPost = (req, res) => {
+    const BusyBoy = require('busboy');
+    const path = require('path');
+    const os = require('os');
+    const fs = require('fs');
+
+    console.log(req.headers)
+    const busyboy = new BusyBoy({headers: req.headers});
+
+    let imageFileName;
+    let imageToBeUploaded = {};
+
+    busyboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+        if (mimetype !== 'image/jpeg' && mimetype !== 'image/png') {
+            return res.status(400).json({ error: 'Wrong file type submitted'});
+        }
+
+        const filenameParts = filename.split('.');
+        const imageExt = filenameParts[filenameParts.length - 1];
+        imageFileName = `${req.params.announcementId}.${Math.round(Math.random() * 10000000000)}.${imageExt}`;
+        const filepath = path.join(os.tmpdir(), imageFileName);
+        imageToBeUploaded = {filepath, mimetype};
+        file.pipe(fs.createWriteStream(filepath));
+    });
+
+    busyboy.on('finish', () => {
+        admin.storage().bucket()
+            .upload(imageToBeUploaded.filepath, {
+                resumable: false,
+                metadata: {
+                    metadata: {
+                        contentType: imageToBeUploaded.mimetype
+                    }
+                }
+            })
+            .then(() => {
+                const imageUrl = getImageUrl(imageFileName);
+                return res.json({imageUrl})
+            })
+            .catch(logErrorReturn500)
+    });
+
+    busyboy.end(req.rawBody)
 };

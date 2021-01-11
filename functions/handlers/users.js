@@ -1,15 +1,11 @@
-const {logErrorReturn500} = require("../util/common");
-
+const { logErrorReturn500 } = require("../util/common");
+const { getImageUrl } = require("../util/common");
 const { admin, db } = require('../util/admin');
 const config = require('../util/config');
 
 const firebase = require("firebase");
 firebase.initializeApp(config);
 const {validateSignupData, validateLoginData, reduceUserDetails} = require('../util/validators');
-
-function getImageUrl(imageFileName) {
-    return `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media`;
-}
 
 exports.signup = (req, res) => {
     const newUser = {

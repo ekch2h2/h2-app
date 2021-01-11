@@ -7,7 +7,8 @@ const {
     likeAnnouncement,
     unlikeAnnouncement,
     deleteAnnouncement,
-    updateAnnouncement
+    updateAnnouncement,
+    uploadImageForPost
 } = require('./handlers/announcements');
 const { signup, login, addUserDetails, getAuthenticatedUser, uploadImage,
     getUserDetails,
@@ -32,6 +33,7 @@ app.delete("/announcement/:announcementId", FBAuth, deleteAnnouncement);
 app.get("/announcement/:announcementId/like", FBAuth, likeAnnouncement);
 app.get("/announcement/:announcementId/unlike", FBAuth, unlikeAnnouncement);
 app.post("/announcement/:announcementId/comment", FBAuth, commentOnAnnouncement);
+app.post("/announcement/:announcementId/image", FBAuth, uploadImageForPost);
 
 // User routes
 app.post("/user", FBAuth, addUserDetails);
