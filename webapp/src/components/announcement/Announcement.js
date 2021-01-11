@@ -70,20 +70,35 @@ class Announcement extends Component {
         dimensions: null
     };
 
+    constructor(props) {
+        super(props);
+        this.container = React.createRef();
+    }
+
     toggleExpandContent = () => {
         this.setState(prevState => ({
             expanded: !prevState.expanded
         }))
     };
 
+    updateContentDimensions() {
+        this.setState({
+            dimensions: {
+                width: this.container.current.offsetWidth,
+                height: this.container.current.offsetHeight,
+            },
+        })
+
+
+    }
+
+    componentDidMount() {
+        this.updateContentDimensions();
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevState.dimensions == null || prevState.dimensions.height !== this.container.offsetHeight) {
-            this.setState({
-                dimensions: {
-                    width: this.container.offsetWidth,
-                    height: this.container.offsetHeight,
-                },
-            });
+        if (prevState.dimensions == null || prevState.dimensions.height !== this.container.current.offsetHeight) {
+            this.updateContentDimensions();
         }
     }
 
@@ -148,6 +163,14 @@ class Announcement extends Component {
             {userHandle}
         </Typography>);
 
+        const showMoreButton = (
+            <MyButton tip="expand announcement"
+                                         btnClassName={clsx(classes.expand, {
+                                             [classes.expandOpen]: expanded,
+                                         })}>
+                <ExpandMoreIcon color="primary" onClick={this.toggleExpandContent}/>
+            </MyButton>
+        );
         return (
             <Card className={classes.card}>
                 <CardHeader
@@ -171,31 +194,22 @@ class Announcement extends Component {
                             timeout="auto"
                             collapsedHeight={`${this.collapsedHeight()}px`}
                         >
-                        <Typography id={"content-" + announcementId}>
-                            <div className={"ContentOnly-" + announcementId} ref={el => (this.container = el)}>
+                            <Typography
+                                id={"content-" + announcementId}
+                                ref={this.container}
+                                onLoad={this.updateContentDimensions.bind(this)}
+                            >
                                 <ReactMarkdown
                                     source={markdownTextPreProcess(body)}
                                     className={classes.markdownContainer}
                                 />
-                            </div>
-                        </Typography>
+                            </Typography>
                         </Collapse>
 
                     </CardContent>
 
                 <CardActions className={classes.actions}>
-                    {this.shouldShowMore() ? (
-                        <MyButton tip="expand announcement"
-                                  btnClassName={clsx(classes.expand, {
-                                      [classes.expandOpen]: expanded,
-                                  })}>
-                            <ExpandMoreIcon color="primary" onClick={this.toggleExpandContent}/>
-                        </MyButton>
-                    ) : (
-                        <div/>
-                    )}
-
-
+                    {this.shouldShowMore() ? showMoreButton : <div/>}
                 </CardActions>
             </Card>
         )
