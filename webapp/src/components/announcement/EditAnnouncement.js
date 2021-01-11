@@ -28,10 +28,6 @@ const styles = (theme) => ({
     dialogContent: {
         padding: 20
     },
-    closeButton: {
-        position: "absolute",
-        left: "90%"
-    },
     expandButton: {
         float: "right"
     },

@@ -53,6 +53,9 @@ const styles = (theme) => ({
     markdownContainer: {
         h2: {
             fontSize: "1em"
+        },
+        '& img': {
+            width: "100%"
         }
     }
 });

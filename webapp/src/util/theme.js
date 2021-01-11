@@ -94,6 +94,11 @@ const theme = {
             '& a': {
                 margin: '20px 10px'
             }
+        },
+        closeButton: {
+            position: "absolute",
+            right: "0.2rem",
+            top: "0.4rem"
         }
     }
 };
