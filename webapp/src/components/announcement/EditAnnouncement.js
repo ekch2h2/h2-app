@@ -11,13 +11,14 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 // Icon
 import CloseIcon from "@material-ui/icons/Close";
 import EditIcon from "@material-ui/icons/Edit";
+import ImageIcon from '@material-ui/icons/Image';
 
 import MyButton from "../../util/MyButton";
 import TextField from "@material-ui/core/TextField/TextField";
 import Button from "@material-ui/core/Button";
 
 // Redux
-import { getAnnouncement, updateAnnouncement, clearErrors } from "../../redux/actions/dataActions";
+import {getAnnouncement, updateAnnouncement, clearErrors, uploadImageForPost} from "../../redux/actions/dataActions";
 
 const styles = (theme) => ({
     ...theme.rootStyles,
@@ -35,7 +36,17 @@ const styles = (theme) => ({
         textAlign: "center",
         marginTo: 50,
         marginBottom: 50
-    }
+    },
+    submitButton: {
+        margin: "10px auto 10px auto",
+        position: "relative",
+        float: "right"
+    },
+    toolButton: {
+        margin: "10px auto 10px auto",
+        position: "relative",
+        float: "left"
+    },
 });
 
 class EditAnnouncement extends Component {
@@ -47,14 +58,19 @@ class EditAnnouncement extends Component {
         body: ""
     };
 
+    constructor(props) {
+        super(props);
+        this.imageButtonRef = React.createRef();
+    }
+
     componentWillReceiveProps(nextProps, nextContext) {
         if (nextProps.UI.errors) {
             this.setState({
                 errors: nextProps.UI.errors
             })
         }
-        if (this.props.announcement.body) {
-            this.setState({ body: this.props.announcement.body })
+        if (nextProps.announcement.body) {
+            this.setState({ body: nextProps.announcement.body })
         }
     }
 
@@ -95,6 +111,17 @@ class EditAnnouncement extends Component {
         })
     };
 
+    handleImageChange = (event) => {
+        const image = event.target.files[0];
+        const formData = new FormData();
+        formData.append("image", image, image.name);
+        this.props.uploadImageForPost(this.props.announcementId, formData);
+    };
+
+    handleEditPicture = () => {
+        this.imageButtonRef.current.click();
+    };
+
     render() {
         const {
             classes,
@@ -122,7 +149,27 @@ class EditAnnouncement extends Component {
                     onChange={this.handleChange}
                     fullWidth
                     value={body}
+                    rows="6"
+                    rowsMax="12"
                 />
+                <input
+                    type="file"
+                    id="imageInput"
+                    hidden="hidden"
+                    onChange={this.handleImageChange}
+                    ref={this.imageButtonRef}
+                />
+                <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.toolButton}
+                    disabled={loading}
+                    onClick={this.handleEditPicture}
+                >
+                    <ImageIcon />
+
+                </Button>
+
                 <Button type="submit" variant="contained"
                         color="primary"
                         className={classes.submitButton}
@@ -174,4 +221,5 @@ const mapStateToProps = (state) => ({
     UI: state.UI
 });
 
-export default connect(mapStateToProps, { getAnnouncement, updateAnnouncement, clearErrors })(withStyles(styles)(EditAnnouncement));
+export default connect(mapStateToProps, {
+    getAnnouncement, updateAnnouncement, uploadImageForPost, clearErrors })(withStyles(styles)(EditAnnouncement));

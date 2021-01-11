@@ -6,7 +6,7 @@ import {
     DELETE_ANNOUNCEMENT,
     POST_ANNOUNCEMENT,
     SET_ANNOUNCEMENT,
-    SUBMIT_COMMENT
+    SUBMIT_COMMENT, APPEND_IMAGEURL_TO_ANNOUNCEMENT
 } from "../types";
 
 
@@ -33,6 +33,14 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 announcement: action.payload
+            };
+        case APPEND_IMAGEURL_TO_ANNOUNCEMENT:
+            return {
+                ...state,
+                announcement: {
+                    ...state.announcement,
+                    body: `${state.announcement.body}\n\n![](${action.payload})`
+                }
             };
         case LIKE_ANNOUNCEMENT:
         case UNLIKE_ANNOUNCEMENT:

@@ -5,7 +5,14 @@ import {
     UNLIKE_ANNOUNCEMENT,
     DELETE_ANNOUNCEMENT,
     CLEAR_ERRORS,
-    SET_ERRORS, LOADING_UI, POST_ANNOUNCEMENT, SET_ANNOUNCEMENT, STOP_LOADING_UI, SUBMIT_COMMENT
+    SET_ERRORS,
+    LOADING_UI,
+    POST_ANNOUNCEMENT,
+    SET_ANNOUNCEMENT,
+    STOP_LOADING_UI,
+    SUBMIT_COMMENT,
+    LOADING_USER,
+    APPEND_IMAGEURL_TO_ANNOUNCEMENT
 } from "../types";
 import axios from 'axios';
 
@@ -157,4 +164,16 @@ export const getUserData = (userHandle) => dispatch => {
 
 export const clearErrors = () => dispatch => {
     dispatch({ type: CLEAR_ERRORS })
+};
+
+export const uploadImageForPost = (announcementId, formData) => (dispatch) => {
+    dispatch({ type: LOADING_USER });
+    axios.post(`/announcement/${announcementId}/image`, formData)
+        .then(res => {
+            dispatch({
+                type: APPEND_IMAGEURL_TO_ANNOUNCEMENT,
+                payload: res.data.imageUrl
+            })
+        })
+        .catch(err => console.log(err))
 };
