@@ -23,6 +23,7 @@ import ReactMarkdown from "react-markdown";
 import {markdownTextPreProcess} from "../../util/markdown_utils";
 import Collapse from "@material-ui/core/Collapse/Collapse";
 import CardContent from "@material-ui/core/CardContent";
+import ShareButton from "./ShareButton";
 
 const styles = (theme) => ({
     card: {
@@ -148,8 +149,10 @@ class Announcement extends Component {
         const archiveBotton = authenticated && userHandle === handle ? (
             <ArchiveAnnouncement announcementId={announcementId} userHandle={userHandle} />
         ) : null;
+        const shareButton = <ShareButton content={body}/>;
         const actionsMarkup = (
             <div>
+                {shareButton}
                 {editButton}
                 {archiveBotton}
                 {deleteButton}
