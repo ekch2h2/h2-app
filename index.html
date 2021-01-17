@@ -7,6 +7,7 @@
     }
     .content-container {
         font-size: 25px;
+        white-space: pre-wrap;
     }
 </style>
 <body>
@@ -34,7 +35,7 @@
     var v = getParameterByName("content");
     if (v) {
         var para = document.createElement("p");
-        var node = document.createTextNode(decodeURIComponent(v).replace("\n", "<br>"));
+        var node = document.createTextNode(decodeURIComponent(v));
         para.appendChild(node);
 
         var element = document.getElementById("content");

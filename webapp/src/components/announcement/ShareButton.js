@@ -15,7 +15,7 @@ class ShareButton extends Component {
         const shareData = {
             title: 'H2 App',
             text: content,
-            url: `https://ekch2h2.github.io/h2-app/?content=${content}`
+            url: `https://ekch2h2.github.io/h2-app/?content=${encodeURIComponent(content)}`
         };
 
         try {
