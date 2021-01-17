@@ -1,11 +1,42 @@
 <head>
     <title>H2 App</title>
 </head>
+<style>
+    h1 {
+        font-size: 40px;
+    }
+    .content-container {
+        font-size: 25px;
+    }
+</style>
 <body>
-<h2>Welcome to H2 App</h2>
-This is a pointer page that redirect you to our actual website, please follow steps below
-<ul>
-    <li>Open this page in Safari</li>
-    <li>Visit: <a href="https://h2-app.web.app">h2-app.web.app</a></li>
-</ul>
+<h1>Welcome to H2 App</h1>
+<div id="content" class="content-container"></div>
+
+<div class="footer">
+    This is a reduced page that shows the text content, to view the full website, please follow steps below
+    <ul>
+        <li>Open this page in Safari</li>
+        <li>Visit: <a href="https://h2-app.web.app">h2-app.web.app</a></li>
+    </ul>
+</div>
 </body>
+<script>
+    function getParameterByName(name, url = window.location.href) {
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+    var v = getParameterByName("content");
+    if (v) {
+        var para = document.createElement("p");
+        var node = document.createTextNode(v);
+        para.appendChild(node);
+
+        var element = document.getElementById("content");
+        element.appendChild(para);
+    }
+</script>
