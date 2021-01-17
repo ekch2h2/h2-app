@@ -13,6 +13,7 @@
 <h1>Welcome to H2 App</h1>
 <div id="content" class="content-container"></div>
 
+<hr/>
 <div class="footer">
     This is a reduced page that shows the text content, to view the full website, please follow steps below
     <ul>
@@ -33,7 +34,7 @@
     var v = getParameterByName("content");
     if (v) {
         var para = document.createElement("p");
-        var node = document.createTextNode(v);
+        var node = document.createTextNode(decodeURIComponent(v));
         para.appendChild(node);
 
         var element = document.getElementById("content");
