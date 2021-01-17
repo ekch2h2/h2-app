@@ -16,6 +16,8 @@ import Card from '@material-ui/core/Card';
 import CardHeader from "@material-ui/core/CardHeader";
 import CardActions from '@material-ui/core/CardActions';
 import Typography from "@material-ui/core/Typography";
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+
 // Icons
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ArchiveAnnouncement from "./ArchiveAnnouncement";
@@ -40,6 +42,9 @@ const styles = (theme) => ({
     actions: {
         display: "block"
     },
+    tools: {
+        float: "left"
+    },
     expand: {
         float: "right",
         transform: 'rotate(0deg)',
@@ -62,7 +67,7 @@ const styles = (theme) => ({
 });
 
 const collapsedHeightForWideScreen = 150;
-const collapsedHeightForNarrow = 350;
+const collapsedHeightForNarrow = 250;
 const wideNarrowThresh = 500;
 
 class Announcement extends Component {
@@ -151,12 +156,12 @@ class Announcement extends Component {
         ) : null;
         const shareButton = <ShareButton content={body}/>;
         const actionsMarkup = (
-            <div>
+            <ButtonGroup classes={classes.buttonGroup}>
                 {shareButton}
                 {editButton}
                 {archiveBotton}
                 {deleteButton}
-            </div>
+            </ButtonGroup>
         );
         const userLink = (<Typography
             component={Link}
@@ -185,7 +190,6 @@ class Announcement extends Component {
                         >
                         </Avatar>
                     }
-                    action={actionsMarkup}
                     title={userLink}
                     subheader={dayjs(createdAt).fromNow()}
                 />
@@ -212,6 +216,9 @@ class Announcement extends Component {
                     </CardContent>
 
                 <CardActions className={classes.actions}>
+                    <div className={classes.tools}>
+                        {actionsMarkup}
+                    </div>
                     {this.shouldShowMore() ? showMoreButton : <div/>}
                 </CardActions>
             </Card>
