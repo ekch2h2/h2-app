@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/h2-app/static/css/main.e1955600.chunk.css",
+    "main.js": "/h2-app/static/js/main.d51c57a7.chunk.js",
+    "main.js.map": "/h2-app/static/js/main.d51c57a7.chunk.js.map",
+    "runtime-main.js": "/h2-app/static/js/runtime-main.d77a5d7b.js",
+    "runtime-main.js.map": "/h2-app/static/js/runtime-main.d77a5d7b.js.map",
+    "static/js/2.2db61dde.chunk.js": "/h2-app/static/js/2.2db61dde.chunk.js",
+    "static/js/2.2db61dde.chunk.js.map": "/h2-app/static/js/2.2db61dde.chunk.js.map",
+    "index.html": "/h2-app/index.html",
+    "precache-manifest.dd5e93b53e55b633fa01954e1196a39c.js": "/h2-app/precache-manifest.dd5e93b53e55b633fa01954e1196a39c.js",
+    "service-worker.js": "/h2-app/service-worker.js",
+    "static/css/main.e1955600.chunk.css.map": "/h2-app/static/css/main.e1955600.chunk.css.map",
+    "static/js/2.2db61dde.chunk.js.LICENSE.txt": "/h2-app/static/js/2.2db61dde.chunk.js.LICENSE.txt",
+    "static/media/icon.png": "/h2-app/static/media/icon.10f8d0e1.png",
+    "static/media/no-img.png": "/h2-app/static/media/no-img.77f5794e.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d77a5d7b.js",
+    "static/js/2.2db61dde.chunk.js",
+    "static/css/main.e1955600.chunk.css",
+    "static/js/main.d51c57a7.chunk.js"
+  ]
+}
