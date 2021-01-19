@@ -46,7 +46,7 @@ function App() {
   return (
       <MuiThemeProvider theme={theme}>
           <Provider store={store}>
-              <Router>
+              <Router basename={process.env.PUBLIC_URL}>
                   <Navbar/>
                   <div className="container">
                       <Switch>

@@ -1,5 +1,5 @@
 # h2-app
-[Webapp](https://h2-app.web.app/) for h2 fellowship.
+[Webapp](https://ekch2h2.github.io/h2-app/) for h2 fellowship.
 
 # Test User Info
 * Username: user123@email.com

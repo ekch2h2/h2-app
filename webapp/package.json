@@ -28,8 +28,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "firebase deploy --only hosting",
-    "release": "react-scripts build && firebase deploy --only hosting"
+    "deploy": "gh-pages -d build",
+    "deploy-fb": "firebase deploy --only hosting",
+    "release": "react-scripts build && firebase deploy --only hosting",
+    "predeploy": "npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -47,5 +49,9 @@
     ]
   },
   "proxy": "https://us-central1-h2-app.cloudfunctions.net/api",
-  "proxy-test": "http://localhost:5000/h2-app/us-central1/api"
+  "proxy-test": "http://localhost:5000/h2-app/us-central1/api",
+  "devDependencies": {
+    "gh-pages": "^3.1.0"
+  },
+  "homepage": "https://ekch2h2.github.io/h2-app/"
 }
