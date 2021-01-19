@@ -6,7 +6,6 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import clsx from 'clsx';
 import EditAnnouncement from "./EditAnnouncement";
-import MyButton from "../../util/MyButton";
 import DeleteAnnouncement from "./DeleteAnnouncement";
 // Redux
 import { connect } from "react-redux";
@@ -19,13 +18,13 @@ import Typography from "@material-ui/core/Typography";
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 // Icons
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ArchiveAnnouncement from "./ArchiveAnnouncement";
 import ReactMarkdown from "react-markdown";
 import {markdownTextPreProcess} from "../../util/markdown_utils";
 import Collapse from "@material-ui/core/Collapse/Collapse";
 import CardContent from "@material-ui/core/CardContent";
 import ShareButton from "./ShareButton";
+import Button from "@material-ui/core/Button";
 
 const styles = (theme) => ({
     card: {
@@ -42,19 +41,9 @@ const styles = (theme) => ({
     actions: {
         display: "block"
     },
-    tools: {
-        float: "left"
-    },
-    expand: {
-        float: "right",
-        transform: 'rotate(0deg)',
-        marginLeft: 'auto',
-        transition: theme.transitions.create('transform', {
-            duration: theme.transitions.duration.shortest,
-        }),
-    },
-    expandOpen: {
-        transform: 'rotate(180deg)'
+    showMoreContainer: {
+        display: "flex",
+        'justify-content': "center"
     },
     markdownContainer: {
         h2: {
@@ -63,6 +52,10 @@ const styles = (theme) => ({
         '& img': {
             width: "100%"
         }
+    },
+    showMore : {
+        'border-radius': "20px",
+        'margin-top': "3px"
     }
 });
 
@@ -172,12 +165,17 @@ class Announcement extends Component {
         </Typography>);
 
         const showMoreButton = (
-            <MyButton tip="expand announcement"
-                                         btnClassName={clsx(classes.expand, {
-                                             [classes.expandOpen]: expanded,
-                                         })}>
-                <ExpandMoreIcon color="primary" onClick={this.toggleExpandContent}/>
-            </MyButton>
+            <div className={clsx(classes.showMoreContainer)}>
+                <Button
+                    onClick={this.toggleExpandContent}
+                    className={clsx(classes.showMore)}
+                    variant="outlined"
+                    color="primary"
+                    size="small"
+                >
+                    Show {expanded ? "Less" : "More"}
+                </Button>
+            </div>
         );
         return (
             <Card className={classes.card}>
@@ -212,14 +210,13 @@ class Announcement extends Component {
                                 />
                             </Typography>
                         </Collapse>
+                        {this.shouldShowMore() ? showMoreButton : <div/>}
+
 
                     </CardContent>
 
                 <CardActions className={classes.actions}>
-                    <div className={classes.tools}>
-                        {actionsMarkup}
-                    </div>
-                    {this.shouldShowMore() ? showMoreButton : <div/>}
+                    {actionsMarkup}
                 </CardActions>
             </Card>
         )
