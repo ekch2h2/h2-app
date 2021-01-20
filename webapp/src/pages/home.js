@@ -5,19 +5,33 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getAnnouncements } from "../redux/actions/dataActions";
 import AnnouncementSkeleton from "../util/AnnouncementSkeleton";
+const queryString = require('query-string');
 
 class home extends Component {
+    state = {
+        announcementId: null
+    };
+
     componentDidMount() {
-        this.props.getAnnouncements()
+        this.props.getAnnouncements();
+        const queryParams = queryString.parse(this.props.location.search);
+        const announcementId = queryParams.announcementId;
+        if (announcementId) {
+            this.setState({ announcementId: announcementId})
+        }
     }
 
     render() {
+        const { announcementId } = this.state;
         const { announcements, loading } = this.props.data;
-
+        console.log(announcementId)
         return !loading ? (
             announcements
                 .filter(ann => !ann.isArchived)
-                .map(ann => <Announcement key={ann.announcementId} announcement={ann}/>)
+                .map(ann => announcementId && ann.announcementId === announcementId ?
+                    (<Announcement key={ann.announcementId} announcement={ann} openDialog={true}/>) :
+                    (<Announcement key={ann.announcementId} announcement={ann}/>)
+                )
         ) : <AnnouncementSkeleton />;
     }
 }

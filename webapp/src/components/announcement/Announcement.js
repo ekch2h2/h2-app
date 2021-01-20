@@ -25,6 +25,7 @@ import Collapse from "@material-ui/core/Collapse/Collapse";
 import CardContent from "@material-ui/core/CardContent";
 import ShareButton from "./ShareButton";
 import Button from "@material-ui/core/Button";
+import AnnouncementDialog from "./AnnouncementDialog";
 
 const styles = (theme) => ({
     card: {
@@ -130,7 +131,8 @@ class Announcement extends Component {
             user: {
                 authenticated,
                 credentials: { handle }
-            }
+            },
+            openDialog
         } = this.props;
 
         const { expanded } = this.state;
@@ -147,7 +149,7 @@ class Announcement extends Component {
         const archiveBotton = authenticated && userHandle === handle ? (
             <ArchiveAnnouncement announcementId={announcementId} userHandle={userHandle} />
         ) : null;
-        const shareButton = <ShareButton content={body}/>;
+        const shareButton = <ShareButton announcementId={announcementId} content={body}/>;
         const actionsMarkup = (
             <ButtonGroup classes={classes.buttonGroup}>
                 {shareButton}
@@ -218,6 +220,7 @@ class Announcement extends Component {
                 <CardActions className={classes.actions}>
                     {actionsMarkup}
                 </CardActions>
+                <AnnouncementDialog announcementId={announcementId} openDialog={openDialog}/>
             </Card>
         )
     }

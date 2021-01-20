@@ -137,13 +137,6 @@ class AnnouncementDialog extends Component {
         );
         return (
             <Fragment>
-                <MyButton
-                    onClick={this.handleOpen}
-                    tip="Expand announcement"
-                    btnClassName={classes.expandButton}
-                >
-                    <ChatIcon color="primary" />
-                </MyButton>
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleClose}
