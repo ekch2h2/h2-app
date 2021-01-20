@@ -29,10 +29,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "deploy-fb": "firebase deploy --only hosting",
-    "release": "react-scripts build && firebase deploy --only hosting",
-    "predeploy": "npm run build"
+    "deploy-fb": "firebase deploy --only hosting"
   },
   "eslintConfig": {
     "extends": "react-app"
