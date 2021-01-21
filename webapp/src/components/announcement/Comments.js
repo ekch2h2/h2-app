@@ -8,15 +8,10 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 // Redux
 import { connect } from "react-redux";
+import Avatar from "@material-ui/core/Avatar";
 
 const styles = (theme) => ({
     ...theme.rootStyles,
-    commentImage: {
-        maxWidth: "100%",
-        height: 100,
-        objectFit: "cover",
-        borderRadius: "50%"
-    },
     commentData: {
         marginLeft: 20
     }
@@ -33,13 +28,12 @@ class Comments extends Component {
                         <Fragment key={createdAt}>
                             <Grid item sm={12}>
                                 <Grid container>
-                                    <Grid item sm={2}>
-                                        <img src={userImage} alt="comment" className={classes.commentImage}/>
+                                    <Grid item sm={1}>
+                                        <Avatar alt={userHandle} src={userImage} className={classes.avatar} />
                                     </Grid>
                                     <Grid item sm={9}>
                                         <div className={classes.commentData}>
                                             <Typography
-                                                variant="h5"
                                                 component={Link}
                                                 to={`/users/${userHandle}`}
                                                 color="primary"

@@ -23,19 +23,17 @@ import ReactMarkdown from "react-markdown";
 import CommentForm from "./CommentForm";
 import Avatar from "@material-ui/core/Avatar";
 import Container from "@material-ui/core/Container";
+import {markdownTextPreProcess} from "../../util/markdown_utils";
 
 const styles = (theme) => ({
     ...theme.rootStyles,
-    avatar: {
-        height: "80%",
-        width: "80%"
-    },
     dialogContent: {
         padding: 20
     },
     closeButton: {
         position: "absolute",
-        left: "90%"
+        right: "0.6rem",
+        top: "0.6rem"
     },
     spinnerDiv: {
         textAlign: "center",
@@ -43,15 +41,19 @@ const styles = (theme) => ({
         marginBottom: 50
     },
     markdownContainer: {
-        display: "block"
+        display: "block",
+        width: "100%",
+        overflow: "hidden"
+    },
+    avatar: {
+        width: "4rem",
+        height: "4rem"
     }
 });
 
 class AnnouncementDialog extends Component {
     state = {
-        open: false,
-        oldPath: "",
-        newPath: ""
+        open: false
     };
 
     componentDidMount() {
@@ -61,16 +63,7 @@ class AnnouncementDialog extends Component {
     }
 
     handleOpen = () => {
-        let oldPath = window.location.pathname;
-        const { userHandle, announcementId } = this.props;
-        const newPath = `/users/${userHandle}/announcement/${announcementId}`;
-
-        if (oldPath === newPath) {
-            oldPath = `/users/${userHandle}`;
-        }
-        window.history.pushState(null, null, newPath);
-
-        this.setState({ open: true, oldPath, newPath });
+        this.setState({ open: true});
         this.props.getAnnouncement(this.props.announcementId);
     };
 
@@ -102,14 +95,14 @@ class AnnouncementDialog extends Component {
 
         ) : (
             <Grid container>
-                <Grid item sm={2}>
+                <Grid item sm={1} className={classes.avatarContainer}>
                     <Avatar alt={userHandle} src={userImage} className={classes.avatar} />
                 </Grid>
-                <Grid item sm={10}>
+                <Grid item sm>
                     <Typography
                         component={Link}
                         color="primary"
-                        variant="h5"
+                        variant="h6"
                         to={`/users/${userHandle}`}
                         >
                         @{userHandle}
@@ -121,7 +114,7 @@ class AnnouncementDialog extends Component {
                 </Grid>
                 <div className={classes.markdownContainer}>
                     <hr className={classes.invisibleSeparator}/>
-                    <ReactMarkdown source={body}/>
+                    <ReactMarkdown source={markdownTextPreProcess(body)}/>
                 </div>
 
                 <Container>

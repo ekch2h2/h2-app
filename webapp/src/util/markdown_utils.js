@@ -3,6 +3,9 @@ export function isListLine(s) {
 }
 
 export function markdownTextPreProcess(s) {
+    if (!s) {
+        return s;
+    }
     let bodyFinal = "";
     let prevLine = "";
     s.split("\n").forEach(rawLine => {
