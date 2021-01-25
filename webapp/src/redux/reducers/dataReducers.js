@@ -24,9 +24,15 @@ export default function(state = initialState, action) {
                 loading: true
             };
         case SET_ANNOUNCEMENTS:
+            const topItems = action.payload.filter(e => !!e.pinToTop);
+            const regularItems = action.payload.filter(e => !e.pinToTop);
+
             return {
                 ...state,
-                announcements: action.payload,
+                announcements: [
+                    ...topItems,
+                    ...regularItems
+                ],
                 loading: false
             };
         case SET_ANNOUNCEMENT:

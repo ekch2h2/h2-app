@@ -13,7 +13,11 @@ export function markdownTextPreProcess(s) {
         if (!isListLine(prevLine) && isListLine(line)) {
             bodyFinal += "\n"
         }
-        bodyFinal += line.replace("。", " 。 ") + "\n";
+        bodyFinal += line;
+        bodyFinal = bodyFinal.replace(/。/g, " 。");
+        bodyFinal = bodyFinal.replace(/）/g, " ） ");
+        bodyFinal = bodyFinal.replace(/（/g, " （ ");
+        bodyFinal += "\n";
         prevLine = line;
     });
 

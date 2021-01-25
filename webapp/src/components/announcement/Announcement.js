@@ -26,11 +26,15 @@ import CardContent from "@material-ui/core/CardContent";
 import ShareButton from "./ShareButton";
 import Button from "@material-ui/core/Button";
 import AnnouncementDialog from "./AnnouncementDialog";
+import PinAnnouncement from "./PinAnnouncement";
 
 const styles = (theme) => ({
     card: {
         marginBottom: 20,
-        position: "relative"
+        position: "relative",
+    },
+    cardPinToTop: {
+        "background-color": "cornsilk"
     },
     image: {
         minWidth: 200
@@ -126,7 +130,8 @@ class Announcement extends Component {
                 createdAt,
                 userImage,
                 userHandle,
-                announcementId
+                announcementId,
+                pinToTop
             },
             user: {
                 authenticated,
@@ -146,15 +151,19 @@ class Announcement extends Component {
                 userHandle={userHandle}
             />
         ) : null;
-        const archiveBotton = authenticated && userHandle === handle ? (
+        const archiveButton = authenticated && userHandle === handle ? (
             <ArchiveAnnouncement announcementId={announcementId} userHandle={userHandle} />
+        ) : null;
+        const pinButton = authenticated && userHandle === handle ? (
+            <PinAnnouncement announcementId={announcementId} pinToTop={pinToTop} />
         ) : null;
         const shareButton = <ShareButton announcementId={announcementId} content={body}/>;
         const actionsMarkup = (
             <ButtonGroup classes={classes.buttonGroup}>
                 {shareButton}
                 {editButton}
-                {archiveBotton}
+                {pinButton}
+                {archiveButton}
                 {deleteButton}
             </ButtonGroup>
         );
@@ -180,7 +189,7 @@ class Announcement extends Component {
             </div>
         );
         return (
-            <Card className={classes.card}>
+            <Card className={clsx(classes.card, {[classes.cardPinToTop]: pinToTop})}>
                 <CardHeader
                     avatar={
                         <Avatar

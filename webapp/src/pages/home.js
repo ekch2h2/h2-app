@@ -24,7 +24,6 @@ class home extends Component {
     render() {
         const { announcementId } = this.state;
         const { announcements, loading } = this.props.data;
-        console.log(announcementId)
         return !loading ? (
             announcements
                 .filter(ann => !ann.isArchived)

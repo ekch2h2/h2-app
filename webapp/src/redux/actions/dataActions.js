@@ -128,6 +128,19 @@ export const archiveAnnouncement = (announcementId) => dispatch => {
         });
 };
 
+export const pinAnnouncement = (announcementId, pinToTop) => dispatch => {
+    axios.post(`/announcement/${announcementId}`, { pinToTop })
+        .then(() => {
+            dispatch(getAnnouncements());
+        })
+        .catch(err => {
+            dispatch({
+                type: SET_ERRORS,
+                payload: err.response.data
+            })
+        });
+};
+
 export const submitComment = (announcementId, commentData) => dispatch => {
     axios.post(`/announcement/${announcementId}/comment`, commentData)
         .then(res => {
