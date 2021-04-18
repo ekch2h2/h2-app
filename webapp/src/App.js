@@ -20,6 +20,7 @@ import home from './pages/home';
 import login from './pages/login';
 import signup from './pages/signup';
 import user from './pages/user';
+import calendar from "./pages/calendar";
 // This import loads the firebase namespace along with all its type information.
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -55,6 +56,7 @@ function App() {
                           <AuthRoute exact path="/signup" component={signup}/>
                           <Route exact path="/users/:handle" component={user}/>
                           <Route exact path="/users/:handle/announcement/:announcementId" component={user}/>
+                          <Route exact path="/cal" component={calendar} />
                       </Switch>
                   </div>
               </Router>
