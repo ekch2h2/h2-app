@@ -5,7 +5,7 @@ const initalState = {
     errors: null
 };
 
-export default function (state = initalState, action) {
+const uiReducers = function (state = initalState, action) {
     switch (action.type) {
         default:
             return state;
@@ -33,3 +33,5 @@ export default function (state = initalState, action) {
             };
     }
 }
+
+export default uiReducers;

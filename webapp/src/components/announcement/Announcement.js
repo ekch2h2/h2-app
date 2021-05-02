@@ -21,10 +21,8 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import ArchiveAnnouncement from "./ArchiveAnnouncement";
 import ReactMarkdown from "react-markdown";
 import {markdownTextPreProcess} from "../../util/markdown_utils";
-import Collapse from "@material-ui/core/Collapse/Collapse";
 import CardContent from "@material-ui/core/CardContent";
 import ShareButton from "./ShareButton";
-import Button from "@material-ui/core/Button";
 import AnnouncementDialog from "./AnnouncementDialog";
 import PinAnnouncement from "./PinAnnouncement";
 
@@ -46,80 +44,21 @@ const styles = (theme) => ({
     actions: {
         display: "block"
     },
-    showMoreContainer: {
-        display: "flex",
-        'justify-content': "center"
-    },
     markdownContainer: {
         h2: {
             fontSize: "1em"
         },
         '& img': {
             width: "100%"
+        },
+        '& a': {
+            'white-space': "pre-wrap",
+            'word-wrap': 'break-word'
         }
-    },
-    showMore : {
-        'border-radius': "20px",
-        'margin-top': "3px"
     }
 });
 
-const collapsedHeightForWideScreen = 150;
-const collapsedHeightForNarrow = 250;
-const wideNarrowThresh = 500;
-
 class Announcement extends Component {
-    state = {
-        expanded: false,
-        dimensions: null
-    };
-
-    constructor(props) {
-        super(props);
-        this.container = React.createRef();
-    }
-
-    toggleExpandContent = () => {
-        this.setState(prevState => ({
-            expanded: !prevState.expanded
-        }))
-    };
-
-    updateContentDimensions() {
-        this.setState({
-            dimensions: {
-                width: this.container.current.offsetWidth,
-                height: this.container.current.offsetHeight,
-            },
-        })
-
-
-    }
-
-    componentDidMount() {
-        this.updateContentDimensions();
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevState.dimensions == null || prevState.dimensions.height !== this.container.current.offsetHeight) {
-            this.updateContentDimensions();
-        }
-    }
-
-    shouldShowMore() {
-        const { dimensions } = this.state;
-        return dimensions && dimensions.height >= this.collapsedHeight();
-    }
-
-    collapsedHeight() {
-        const { dimensions } = this.state;
-        if (dimensions) {
-            return dimensions.width > wideNarrowThresh ?
-                collapsedHeightForWideScreen : collapsedHeightForNarrow;
-        }
-        return collapsedHeightForWideScreen;
-    }
-
     render() {
         dayjs.extend(relativeTime);
 
@@ -139,8 +78,6 @@ class Announcement extends Component {
             },
             openDialog
         } = this.props;
-
-        const { expanded } = this.state;
 
         const deleteButton = authenticated && userHandle === handle ? (
             <DeleteAnnouncement announcementId={announcementId}/>
@@ -175,19 +112,6 @@ class Announcement extends Component {
             {userHandle}
         </Typography>);
 
-        const showMoreButton = (
-            <div className={clsx(classes.showMoreContainer)}>
-                <Button
-                    onClick={this.toggleExpandContent}
-                    className={clsx(classes.showMore)}
-                    variant="outlined"
-                    color="primary"
-                    size="small"
-                >
-                    Show {expanded ? "Less" : "More"}
-                </Button>
-            </div>
-        );
         return (
             <Card className={clsx(classes.card, {[classes.cardPinToTop]: pinToTop})}>
                 <CardHeader
@@ -205,25 +129,14 @@ class Announcement extends Component {
 
 
                     <CardContent className={classes.content}>
-                        <Collapse
-                            in={expanded}
-                            timeout="auto"
-                            collapsedHeight={`${this.collapsedHeight()}px`}
+                        <Typography
+                            id={"content-" + announcementId}
                         >
-                            <Typography
-                                id={"content-" + announcementId}
-                                ref={this.container}
-                                onLoad={this.updateContentDimensions.bind(this)}
-                            >
-                                <ReactMarkdown
-                                    source={markdownTextPreProcess(body)}
-                                    className={classes.markdownContainer}
-                                />
-                            </Typography>
-                        </Collapse>
-                        {this.shouldShowMore() ? showMoreButton : <div/>}
-
-
+                            <ReactMarkdown
+                                source={markdownTextPreProcess(body)}
+                                className={classes.markdownContainer}
+                            />
+                        </Typography>
                     </CardContent>
 
                 <CardActions className={classes.actions}>

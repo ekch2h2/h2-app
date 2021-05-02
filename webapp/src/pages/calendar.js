@@ -4,10 +4,12 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getAnnouncements } from "../redux/actions/dataActions";
 
+import Calendar from '../components/calendar/Calendar';
+
 class calendar extends Component {
     render() {
         return <>
-            <h1>This is the header</h1>
+            <Calendar/>
         </>
     }
 }

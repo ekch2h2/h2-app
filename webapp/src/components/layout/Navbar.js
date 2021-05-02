@@ -12,6 +12,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import PostAnnouncement from "../announcement/PostAnnouncement";
 import Notifications from "./Notifications";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 
 const styles = {};
 
@@ -22,6 +23,11 @@ class Navbar extends Component {
             isAnnouncementProvider
         } = this.props;
 
+        const calButton = (<Link to="/cal">
+            <MyButton tip="Calendar">
+                <CalendarTodayIcon/>
+            </MyButton>
+        </Link>)
         return (
             <AppBar>
                 <Toolbar className="nav-container">
@@ -34,6 +40,7 @@ class Navbar extends Component {
                                 </MyButton>
                             </Link>
                             <Notifications/>
+                            {calButton}
                         </Fragment>
                     ) : (
                         <Fragment>
@@ -41,13 +48,13 @@ class Navbar extends Component {
                                 <MyButton tip="Account login">
                                     <AccountCircleIcon />
                                 </MyButton>
-
                             </Link>
                             <Link to="/">
                                 <MyButton tip="Home">
                                     <HomeIcon/>
                                 </MyButton>
                             </Link>
+                            {calButton}
                         </Fragment>
                     )}
                 </Toolbar>
